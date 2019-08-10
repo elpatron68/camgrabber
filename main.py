@@ -28,20 +28,25 @@ def getimages(day, path):
     else:
         print(f'Successfully created the directory {path}')
     counter = 0
+    weathercount = 0
     sun = getsun()
     while day == date.today():
         if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
             f = FILENAME.replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
+            if weathercount == 0:
+                print('Loading new weather information')
+                weathercount += 1
+                weatherdata = getweather(OPENWEATEHR_ID)
             print(f'Saving file: {fullname}')
-            print('Loading weather information')
-            weatherdata = getweather(OPENWEATEHR_ID)
             urllib.request.urlretrieve(URL, fullname)
             print('Inserting weather into image')
             insertdata(fullname, weatherdata)
             counter += 1
             print(f'Sleeping {INTERVAL} seconds...')
             time.sleep(INTERVAL)
+            if weathercount > 39:
+                weathercount=0
         else:
             pass
 
