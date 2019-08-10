@@ -25,4 +25,21 @@ Edit `main.py` and change `URL`, `INTERVAL` and `FILENAME` to your needs.
 `source venv/bin/activate`
 `python main.py`
 
-## Run permanently as supervisor service
+## Run permanently as Supervisor service
+
+- Install _Supervisor_: `sudo apt-get install -y supervisor`
+- Edit the configuration file `sudo nano /etc/supervisor/conf.d/camgrabber.conf`:
+    ```
+    [program:camgrabber]
+    directory=/home/ubuntu/camgrabber
+    command=/home/ubuntu/camgrabber/venv/bin/python main.py
+    autostart=true
+    autorestart=true
+    startretries=10
+    startsecs=10
+    stopwaitsecs=5
+    user=ubuntu
+    ```
+    (Change `directory`, `command` and `user`)
+- Reread and update the configuration: `sudo supervisorctl reread && sudo supervisorctl update`
+- Check status: `sudo supervisorctl status`

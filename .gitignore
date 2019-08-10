@@ -3,3 +3,4 @@
 venv
 .vscode
 test.py
+*.mp4
