@@ -1,3 +1,4 @@
+import os
 import time
 import urllib.request
 from datetime import date
@@ -9,11 +10,19 @@ FILENAME = "ycn-%i.png"
 
 
 def getimages(t):
+    path = t.strftime('%Y%m%d')
+    try:
+        os.mkdir(path)
+    except OSError:
+        print(f"Creation of the directory {path} failed")
+    else:
+        print(f"Successfully created the directory {path}")
     counter = 0
     while t == date.today():
         f = FILENAME.replace('%i', str(counter).zfill(5))
-        print(f'Saving file: {f}')
-        urllib.request.urlretrieve(URL, f)
+        fullname = f'{path}/{f}'
+        print(f'Saving file: {fullname}')
+        urllib.request.urlretrieve(URL, fullname)
         counter += 1
         print(f'Sleeping {INTERVAL} seconds...')
         time.sleep(INTERVAL)
@@ -43,4 +52,4 @@ if __name__ == '__main__':
     while 1:
         today = date.today()
         getimages(today)
-        createtimelapse()
+        # createtimelapse()
