@@ -2,16 +2,22 @@ import os
 import time
 import urllib.request
 import requests
-from datetime import date
-from astral import Astral
+from datetime import date, timedelta, datetime
+from PIL import Image
+from PIL import ImageFont
+from PIL import ImageDraw 
 import ffmpeg
+from skyfield import api
+from skyfield import almanac
 
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
 FILENAME = 'ycn-%i.jpg'
 OPENWEATEHR_ID = '2862135'
-CITY_NAME = 'Norden'
 OPENWEATHER_APIKEY = '6ea7a73741212ae93cb6231852f9f7d0'
+LAT = '53.624721 N'
+LON = '7.153373 E'
+UTC_DELTA = 2
 
 
 def getimages(day, path):
@@ -22,18 +28,22 @@ def getimages(day, path):
     else:
         print(f'Successfully created the directory {path}')
     counter = 0
+    sun = getsun()
     while day == date.today():
-        f = FILENAME.replace('%i', str(counter).zfill(5))
-        fullname = f'{path}/{f}'
-        print(f'Saving file: {fullname}')
-        print('Loading weather information')
-        weatherdata = getweather(OPENWEATEHR_ID)
-        print('Inserting weather into image')
-        insertdata(fullname, weatherdata)
-        urllib.request.urlretrieve(URL, fullname)
-        counter += 1
-        print(f'Sleeping {INTERVAL} seconds...')
-        time.sleep(INTERVAL)
+        if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
+            f = FILENAME.replace('%i', str(counter).zfill(5))
+            fullname = f'{path}/{f}'
+            print(f'Saving file: {fullname}')
+            print('Loading weather information')
+            weatherdata = getweather(OPENWEATEHR_ID)
+            urllib.request.urlretrieve(URL, fullname)
+            print('Inserting weather into image')
+            insertdata(fullname, weatherdata)
+            counter += 1
+            print(f'Sleeping {INTERVAL} seconds...')
+            time.sleep(INTERVAL)
+        else:
+            pass
 
 
 def createtimelapse(day, path):
@@ -66,9 +76,17 @@ def getweather(location_id):
         return current_temperature, current_pressure, windspeed, winddirection
 
 
-def insertdata(img, data):
+def insertdata(imagefile, data):
+    img = Image.open(imagefile)
+    draw = ImageDraw.Draw(img)
+    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 16)
+    draw.text((20, 40),f'Wind Speed: {data[2]} m/s', font=font, fill=(255,0,0,255))
+    draw.text((20, 60),f'Wind Direction: {data[3]}°', font=font, fill=(255,0,0,255))
+    draw.text((20, 80),f'Air Pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
+    draw.text((20, 100),f'Air Temperature: {data[0]}° C', font=font, fill=(255,0,0,255))
+    img.save(imagefile)
     pass
-
+    
 
 def cleanup(path):
     images = os.listdir(path)
@@ -82,18 +100,25 @@ def cleanup(path):
         
 
 def getsun():
-    a = Astral()
-    a.solar_depression = 'civil'
-    city = a[CITY_NAME]
-    sun = city.sun(date=date.today, local=True)
-    dawn = sun['dawn']
-    sunset = sun['sunset']
-    return dawn, sunset
+    location = api.Topos(LAT, LON)
+    ts = api.load.timescale()
+    e = api.load('de421.bsp')
+    today = date.today()
+    t0 = ts.utc(today.year, today.month, today.day, 0)
+    t1 = ts.utc(today.year, today.month, today.day, 23)
+    t, y = almanac.find_discrete(t0, t1, almanac.sunrise_sunset(e, location))
+    sun = t.utc_iso()
+    sun2 = t
+    return sun
 
 if __name__ == '__main__':
     while 1:
         today = date.today()
+        sun = getsun()
         path = today.strftime('%Y%m%d')
-        getimages(today, path)
-        createtimelapse(today, path)
-        cleanup(path)
+        if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
+            getimages(today, path)
+            createtimelapse(today, path)
+            cleanup(path)
+        else:
+            time.sleep(60)

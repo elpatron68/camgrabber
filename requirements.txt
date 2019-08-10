@@ -1,3 +1,4 @@
 graphviz
 ffmpeg-python
-astral
+skyfield
+Pillow
