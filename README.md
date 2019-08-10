@@ -37,9 +37,12 @@ Change setting below!
 """
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
+# Use %i for an incrementing number
 FILENAME = 'ycn-%i.jpg'
-OPENWEATEHR_ID = '2862135'
-OPENWEATHER_APIKEY = '<put your openweathermap api key here>'
+# Search your place on https://openweathermap.org and use the number in the URL (eg. https://openweathermap.org/city/2862041 -> 2862041)
+OPENWEATEHR_ID = '2862041'
+OPENWEATHER_APIKEY = '<insert your openweathermap api key here>'
+# You can get your location from https://maps.google.com. See URL after selecting a location or right click and select "What´s here?"
 LAT = '53.624721 N'
 LON = '7.153373 E'
 ```
@@ -49,7 +52,7 @@ LON = '7.153373 E'
 `source venv/bin/activate`
 `python main.py`
 
-### Run permanently as Supervisor service
+### Run permanently with Supervisor
 
 - Install _Supervisor_: `sudo apt-get install -y supervisor`
 - Edit the configuration file:

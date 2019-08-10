@@ -16,13 +16,13 @@ Change setting below!
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
 FILENAME = 'ycn-%i.jpg'
-OPENWEATEHR_ID = '2862135'
+OPENWEATEHR_ID = '2862041'
 OPENWEATHER_APIKEY = '6ea7a73741212ae93cb6231852f9f7d0'
 LAT = '53.624721 N'
 LON = '7.153373 E'
 
 
-def getimages(day, path):
+def get_images(day, path):
     try:
         os.mkdir(path)
     except OSError:
@@ -31,7 +31,7 @@ def getimages(day, path):
         print(f'Successfully created the directory {path}')
     counter = 0
     weathercount = 0
-    sun = getsun()
+    sun = get_sun()
     while day == date.today():
         if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
             f = FILENAME.replace('%i', str(counter).zfill(5))
@@ -39,11 +39,11 @@ def getimages(day, path):
             if weathercount == 0:
                 print('Loading new weather information')
                 weathercount += 1
-                weatherdata = getweather(OPENWEATEHR_ID)
+                weatherdata = get_weather(OPENWEATEHR_ID)
             print(f'Saving file: {fullname}')
             urllib.request.urlretrieve(URL, fullname)
             print('Inserting weather into image')
-            insertdata(fullname, weatherdata)
+            insert_weather_data(fullname, weatherdata)
             counter += 1
             print(f'Sleeping {INTERVAL} seconds...')
             time.sleep(INTERVAL)
@@ -53,7 +53,7 @@ def getimages(day, path):
             pass
 
 
-def createtimelapse(day, path):
+def create_timelapse(day, path):
     f = FILENAME.replace('%i', day.strftime('%Y%m%d'))
     fn, file_extension = os.path.splitext(f)
 
@@ -67,7 +67,7 @@ def createtimelapse(day, path):
     )
 
 
-def getweather(location_id):
+def get_weather(location_id):
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
     # api.openweathermap.org/data/2.5/weather?id=2172797
     complete_url = f'{base_url}appid={OPENWEATHER_APIKEY}&id={location_id}&units=metric'
@@ -83,7 +83,7 @@ def getweather(location_id):
         return current_temperature, current_pressure, windspeed, winddirection
 
 
-def insertdata(imagefile, data):
+def insert_weather_data(imagefile, data):
     img = Image.open(imagefile)
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 16)
@@ -105,7 +105,7 @@ def cleanup(path):
                 pass
         
 
-def getsun():
+def get_sun():
     location = api.Topos(LAT, LON)
     ts = api.load.timescale()
     e = api.load('de421.bsp')
@@ -120,11 +120,11 @@ def getsun():
 if __name__ == '__main__':
     while 1:
         today = date.today()
-        sun = getsun()
+        sun = get_sun()
         path = today.strftime('%Y%m%d')
         if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
-            getimages(today, path)
-            createtimelapse(today, path)
+            get_images(today, path)
+            create_timelapse(today, path)
             cleanup(path)
         else:
             time.sleep(60)
