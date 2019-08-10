@@ -1,2 +1,3 @@
 graphviz
 ffmpeg-python
+astral
