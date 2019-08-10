@@ -16,6 +16,7 @@ Change setting below!
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
 FILENAME = 'ycn-%i.jpg'
+DESTINATION_PATH = 'videos'
 OPENWEATEHR_ID = '2862041'
 OPENWEATHER_APIKEY = '6ea7a73741212ae93cb6231852f9f7d0'
 LAT = '53.624721 N'
@@ -50,17 +51,25 @@ def get_images(day, path):
             if weathercount > 39:
                 weathercount = 0
         else:
-            pass
+            print('Breaking loop')
+            break
 
 
-def create_timelapse(day, path):
+def create_timelapse(day, source_path, dest_path):
     f = FILENAME.replace('%i', day.strftime('%Y%m%d'))
     fn, file_extension = os.path.splitext(f)
-    fullname = f'{path}/{fn}'
-    print(f'Rendering images from {path} to mp4 video file: {fullname}')
+    fullname = f'{dest_path}/{fn}'
+    try:
+        os.mkdir(dest_path)
+    except OSError:
+        print(f'Creation of the directory {dest_path} failed')
+    else:
+        print(f'Successfully created the directory {dest_path}')
+
+    print(f'Rendering images from {source_path} to mp4 video file: {fullname}')
     (
         ffmpeg
-        .input(f'{path}/*.jpg', pattern_type='glob', framerate=25)
+        .input(f'{source_path}/*.jpg', pattern_type='glob', framerate=25)
         .output(f'{fullname}.mp4')
         .run()
     )
@@ -121,6 +130,7 @@ if __name__ == '__main__':
         today = date.today()
         sun = get_sun()
         path = today.strftime('%Y%m%d')
+        create_timelapse(today, path, DESTINATION_PATH)
         if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
             get_images(today, path)
             create_timelapse(today, path)
