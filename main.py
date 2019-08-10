@@ -39,10 +39,23 @@ def createtimelapse(day, path):
         .output(f'{fullname}.mp4')
         .run()
     )
+
+
+def cleanup(path):
+    images = os.listdir(path)
+
+    for item in images:
+        if item.endswith(".jpg"):
+            try:
+                os.remove(os.path.join(path, item))
+            except:
+                pass
         
+
 if __name__ == '__main__':
     while 1:
         today = date.today()
         path = today.strftime('%Y%m%d')
         getimages(today, path)
         createtimelapse(today, path)
+        cleanup(path)
