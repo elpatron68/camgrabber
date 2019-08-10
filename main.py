@@ -56,9 +56,8 @@ def get_images(day, path):
 def create_timelapse(day, path):
     f = FILENAME.replace('%i', day.strftime('%Y%m%d'))
     fn, file_extension = os.path.splitext(f)
-
     fullname = f'{path}/{fn}'
-    print(f'Rendering to {fullname}')
+    print(f'Rendering images from {path} to mp4 video file: {fullname}')
     (
         ffmpeg
         .input(f'{path}/*.jpg', pattern_type='glob', framerate=25)
