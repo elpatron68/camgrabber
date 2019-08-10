@@ -39,7 +39,7 @@ def get_images(day, path):
             if weathercount == 0:
                 print('Loading new weather information')
                 weathercount += 1
-                weatherdata = get_weather(OPENWEATEHR_ID)
+                weatherdata = get_weather()
             print(f'Saving file: {fullname}')
             urllib.request.urlretrieve(URL, fullname)
             print('Inserting weather into image')
@@ -48,7 +48,7 @@ def get_images(day, path):
             print(f'Sleeping {INTERVAL} seconds...')
             time.sleep(INTERVAL)
             if weathercount > 39:
-                weathercount=0
+                weathercount = 0
         else:
             pass
 
@@ -67,10 +67,10 @@ def create_timelapse(day, path):
     )
 
 
-def get_weather(location_id):
+def get_weather():
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
     # api.openweathermap.org/data/2.5/weather?id=2172797
-    complete_url = f'{base_url}appid={OPENWEATHER_APIKEY}&id={location_id}&units=metric'
+    complete_url = f'{base_url}appid={OPENWEATHER_APIKEY}&id={OPENWEATEHR_ID}&units=metric'
     response = requests.get(complete_url)
     x = response.json()
     if x['cod'] != '404': 
@@ -87,10 +87,10 @@ def insert_weather_data(imagefile, data):
     img = Image.open(imagefile)
     draw = ImageDraw.Draw(img)
     font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 16)
-    draw.text((20, 40),f'Wind Speed: {data[2]} m/s', font=font, fill=(255,0,0,255))
-    draw.text((20, 60),f'Wind Direction: {data[3]}°', font=font, fill=(255,0,0,255))
-    draw.text((20, 80),f'Air Pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
-    draw.text((20, 100),f'Air Temperature: {data[0]}° C', font=font, fill=(255,0,0,255))
+    draw.text((20, 40),f'Wind speed: {data[2]} m/s', font=font, fill=(255,0,0,255))
+    draw.text((20, 60),f'Wind direction: {data[3]}°', font=font, fill=(255,0,0,255))
+    draw.text((20, 80),f'Air pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
+    draw.text((20, 100),f'Air temperature: {data[0]}° C', font=font, fill=(255,0,0,255))
     img.save(imagefile)
     pass
     
@@ -127,4 +127,5 @@ if __name__ == '__main__':
             create_timelapse(today, path)
             cleanup(path)
         else:
+            print('It´s still dark...')
             time.sleep(60)
