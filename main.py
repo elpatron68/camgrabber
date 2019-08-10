@@ -38,8 +38,8 @@ def get_images(day, path):
             fullname = f'{path}/{f}'
             if weathercount == 0:
                 print('Loading new weather information')
-                weathercount += 1
                 weatherdata = get_weather()
+            weathercount += 1
             print(f'Saving file: {fullname}')
             urllib.request.urlretrieve(URL, fullname)
             print('Inserting weather into image')
