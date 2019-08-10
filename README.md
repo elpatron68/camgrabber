@@ -1,6 +1,6 @@
 # Camgrabber
 
-Saves images from url in a specific interval and renders a daily time lapse video. Weather data will be included into each image and the video.
+Saves images from an url in a specific interval and renders a daily time lapse video from the images. Weather data will be included into each image (and of course the video).
 
 ## Requirements
 
