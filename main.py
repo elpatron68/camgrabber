@@ -10,6 +10,9 @@ import ffmpeg
 from skyfield import api
 from skyfield import almanac
 
+"""
+Change setting below!
+"""
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
 FILENAME = 'ycn-%i.jpg'

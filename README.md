@@ -1,6 +1,6 @@
 # Camgrabber
 
-Saves images from url in a specific intervall and renders a daily time lapse video.
+Saves images from url in a specific interval and renders a daily time lapse video. Weather data will be included into each image and the video.
 
 ## Requirements
 
@@ -18,7 +18,7 @@ Saves images from url in a specific intervall and renders a daily time lapse vid
 
 ## Start
 
-Edit `main.py` and change `URL`, `INTERVAL` and `FILENAME` to your needs.
+Edit `main.py` and change values in the settings section to your needs.
 
 ### Manual start
 
@@ -49,7 +49,7 @@ If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloa
 
 ## License & Copyright
 
-*MIT License*
+This Script is licensed under the *MIT License*
 
 (c) 2019 Markus Busche, elpatron@mailbox.org
 
