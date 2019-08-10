@@ -10,15 +10,39 @@ Saves images from an url in a specific interval and renders a daily time lapse v
 
 ## Installation (Debian/Ubuntu Linux)
 
-`sudo apt-get update && sudo apt-get install -y ffmpeg graphviz python3 python3-venv`
-`python3 -m venv venv`
-`source venv/bin/activate`
-`pip install wheel`
-`pip install -r requirements.txt`
+- Install some packages
+  `sudo apt-get update && sudo apt-get install -y ffmpeg graphviz python3 python3-venv`
+- Clone this repository
+  `git clone https://github.com/elpatron68/camgrabber.git`
+- Create Python Virtual Environment
+  `cd camgrabber && python3 -m venv venv`
+- Activate the Virtual Environment
+  `source venv/bin/activate`
+- Install Python requirements
+  `pip install wheel`
+  `pip install -r requirements.txt`
+- Download the needed font from http://www.911fonts.com/font/download_MicrosoftSansSerifRegular_6457.htm and save it as `MicrosoftSansSerifRegular.ttf` in the same directory as `main.py`
 
 ## Start
 
-Edit `main.py` and change values in the settings section to your needs.
+To obtain weather data, you need to have a (free) API key from https://openweathermap.org/api. Create an account, log in and generate a key: https://home.openweathermap.org/api_keys.
+
+Before the first start: Edit `main.py` and change values in the settings section to your needs.
+
+_Example settings_
+
+```
+"""
+Change setting below!
+"""
+URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
+INTERVAL = 15
+FILENAME = 'ycn-%i.jpg'
+OPENWEATEHR_ID = '2862135'
+OPENWEATHER_APIKEY = '<put your openweathermap api key here>'
+LAT = '53.624721 N'
+LON = '7.153373 E'
+```
 
 ### Manual start
 

@@ -97,7 +97,6 @@ def insertdata(imagefile, data):
 
 def cleanup(path):
     images = os.listdir(path)
-
     for item in images:
         if item.endswith('.jpg'):
             try:
