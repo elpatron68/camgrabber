@@ -6,11 +6,10 @@ import ffmpeg
 
 URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
 INTERVAL = 15
-FILENAME = "ycn-%i.png"
+FILENAME = "ycn-%i.jpg"
 
 
-def getimages(t):
-    path = t.strftime('%Y%m%d')
+def getimages(day, path):
     try:
         os.mkdir(path)
     except OSError:
@@ -18,7 +17,7 @@ def getimages(t):
     else:
         print(f"Successfully created the directory {path}")
     counter = 0
-    while t == date.today():
+    while day == date.today():
         f = FILENAME.replace('%i', str(counter).zfill(5))
         fullname = f'{path}/{f}'
         print(f'Saving file: {fullname}')
@@ -28,28 +27,22 @@ def getimages(t):
         time.sleep(INTERVAL)
 
 
-def createtimelapse():
-    output_options = {
-        'crf': 20,
-        'preset': 'slower',
-        'movflags': 'faststart',
-        'pix_fmt': 'yuv420p'
-    }
+def createtimelapse(day, path):
+    f = FILENAME.replace("%i", day.strftime("%Y%m%d"))
+    fn, file_extension = os.path.splitext(f)
+
+    fullname = f'{path}/{fn}'
+    print(f'Rendering to {fullname}')
     (
         ffmpeg
-        .input('/path/to/jpegs/*.jpg', pattern_type='glob', framerate=25)
-        .filter_('deflicker', mode='pm', size=10)
-        .filter_('scale', size='hd1080', force_original_aspect_ratio='increase')
-        .output(
-            'movie.mp4', 
-            **output_options
-        )
-        .view(filename='filter_graph')
+        .input(f'{path}/*.jpg', pattern_type='glob', framerate=25)
+        .output(f'{fullname}.mp4')
         .run()
     )
-
+        
 if __name__ == '__main__':
     while 1:
         today = date.today()
-        getimages(today)
-        # createtimelapse()
+        path = today.strftime('%Y%m%d')
+        getimages(today, path)
+        createtimelapse(today, path)
