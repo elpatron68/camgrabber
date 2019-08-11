@@ -34,12 +34,12 @@ Click on the image to see the video on YouTube
 ### Preparation
 
 - To obtain weather data, you need to have a (free) API key from https://openweathermap.org/api. Create an account, log in and generate a key: https://home.openweathermap.org/api_keys.
-- Find the ID of the place for which you want to retreive weather data: Open https://openweathermap.org, search and click on your place. Use the right part of the URL as you ID. Eg. https://openweathermap.org/city/2862041 -> ID = 2862041.
+- Find the ID of the place for which you want to retreive weather data: Open https://openweathermap.org, search and click on your place. Use the right part of the URL as you ID. Eg. https://openweathermap.org/city/2862041 -> `ID = 2862041`.
 - Find the geographic coordinates of the place of the webcam (from Google maps or place information on openweathermap.org), They are needed to calculate sun dawn and -down.
 
 ### Before the first start:
 
-- Make a copy of `camgrabber.default.ini`:1
+- Make a copy of `camgrabber.default.ini`:
   `cp camgrabber.default.ini camgrabber.ini`
 - Edit `camgrabber.ini` and change values to your needs (eg `nano camgrabber.ini`).
 
