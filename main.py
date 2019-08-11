@@ -136,12 +136,12 @@ def get_weather():
 
 
 def insert_weather_data(imagefile, data):
-    img_xpos = CONFIG['rendering']['img_xpos']
-    img_ypos = CONFIG['rendering']['img_ypos']
-    txt_xpos = CONFIG['rendering']['txt_xpos']
-    txt_ypos = CONFIG['rendering']['txt_ypos']
-    ypos_step = CONFIG['rendering']['ypos_step']
-    fontsize = CONFIG['rendering']['fontsize']
+    img_xpos = int(CONFIG['rendering']['img_xpos'])
+    img_ypos = int(CONFIG['rendering']['img_ypos'])
+    txt_xpos = int(CONFIG['rendering']['txt_xpos'])
+    txt_ypos = int(CONFIG['rendering']['txt_ypos'])
+    ypos_step = int(CONFIG['rendering']['ypos_step'])
+    fontsize = int(CONFIG['rendering']['fontsize'])
     logging.info(f'Inserting weather information into image {imagefile}')
     background = Image.open(imagefile)
     draw = ImageDraw.Draw(background)
