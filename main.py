@@ -144,13 +144,15 @@ def insert_weather_data(imagefile, data):
     img_wind = Image.open('wind_32.png', 'r')
     background.paste(img_wind, (20, 20), img_wind)
     img_compass = Image.open('compass_32.png', 'r')
-    background.paste(img_wind, (20, 60), img_compass)
+    background.paste(img_compass, (20, 60), img_compass)
     img_temp = Image.open('temperature_32.png', 'r')
-    background.paste(img_wind, (20, 100), img_temp)
+    background.paste(img_temp, (20, 100), img_temp)
+    img_pressure = Image.open('pressure_32.png', 'r')
+    background.paste(img_pressure, (20, 140), img_pressure)
     draw.text((64, 25),f'{data[2]} m/s', font=font, fill=(0,0,0,255))
     draw.text((64, 65),f'{data[3]}°', font=font, fill=(0,0,0,255))
     draw.text((64, 106),f'{data[0]}° C', font=font, fill=(0,0,0,255))
-    # draw.text((20, 80),f'Air Pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
+    draw.text((64, 145),f'{data[1]} mbar', font=font, fill=(0,0,0,255))
     background.save(imagefile)
     pass
     
