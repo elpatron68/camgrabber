@@ -2,7 +2,7 @@
 
 Saves images from an url in a specific interval and renders a daily time lapse video from the images. Weather data will be included into each image (and of course the video).
 
-![Demo video from the webcam of https://yacht-club-norden.de/](https://youtu.be/SDnwLYIla0E)
+[![Demo video from the webcam of https://yacht-club-norden.de/](https://img.youtube.com/vi/SDnwLYIla0E/0.jpg)](https://www.youtube.com/watch?v=SDnwLYIla0E)
 
 ## Requirements
 
