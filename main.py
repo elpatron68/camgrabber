@@ -7,7 +7,9 @@ import ntpath
 import logging
 import shutil
 import configparser
-from datetime import date, timedelta, datetime
+from datetime import date
+from datetime import timedelta
+from datetime import datetime
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw 
@@ -15,6 +17,7 @@ import ffmpeg
 from skyfield import api
 from skyfield import almanac
 
+# Read configuration file
 CONFIG = configparser.ConfigParser()
 if os.path.isfile('camgrabber.ini'):
     logging.info('Using camgrabber.ini')
