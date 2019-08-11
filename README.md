@@ -67,6 +67,10 @@ LON = '7.153373 E'
     startsecs=10
     stopwaitsecs=5
     user=ubuntu
+    stdout_logfile=/home/ubuntu/camgrabber/log/camgrabber.stdout.log
+    stdout_logfile_maxbytes=100000
+    stderr_logfile=/home/ubuntu/camgrabber/log/camgrabber.stderr.log
+    stderr_logfile_maxbytes=100000
     ```
     (Change `directory`, `command` and `user`)
 - Reread and update the configuration: `sudo supervisorctl reread && sudo supervisorctl update`

@@ -1,6 +1,7 @@
 __pycache__
 *.jpg
 *.png
+*.txt
 venv
 .vscode
 test.py
@@ -9,4 +10,4 @@ de421.bsp
 deltat.data
 deltat.preds
 Leap_Second.dat
-*.txt
+camgrabber.ini

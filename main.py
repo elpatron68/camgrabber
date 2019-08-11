@@ -1,3 +1,4 @@
+import sys
 import os
 import time
 import urllib.request
@@ -5,6 +6,7 @@ import requests
 import ntpath
 import logging
 import shutil
+import configparser
 from datetime import date, timedelta, datetime
 from PIL import Image
 from PIL import ImageFont
@@ -13,19 +15,19 @@ import ffmpeg
 from skyfield import api
 from skyfield import almanac
 
-"""
-Change setting below!
-"""
-URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
-INTERVAL = 15
-FILENAME = 'ycn-%i.jpg'
-DESTINATION_PATH = 'videos'
-OPENWEATEHR_ID = '2862041'
-OPENWEATHER_APIKEY = '6ea7a73741212ae93cb6231852f9f7d0'
-LAT = '53.624721 N'
-LON = '7.153373 E'
-START_BEFORE_SUNDAWN = 1
-END_AFTER_SUNDOWN = 1
+CONFIG = configparser.ConfigParser()
+if os.path.isfile('camgrabber.ini'):
+    logging.info('Using camgrabber.ini')
+    CONFIG.read('camgrabber.ini')
+elif os.path.isfile('camgrabber.default.ini'):
+    CONFIG.read('camgrabber.default.ini')
+    logging.info('Using default.ini')
+else:
+    sys.exit()
+
+# Constants
+START_BEFORE_SUNDAWN = CONFIG['recording']['start_before_dawn']
+END_AFTER_SUNDOWN = CONFIG['recording']['end_after_sundown']
 
 
 def get_images(day, path):
@@ -65,19 +67,19 @@ def get_images(day, path):
         now = datetime.utcnow()
         if now > start and now < end:
             logging.info('Loading image')
-            f = FILENAME.replace('%i', str(counter).zfill(5))
+            f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
             logging.debug(f'Image file name: {fullname}')
             if weathercount == 0:
                 logging.info('Loading new weather information')
                 weatherdata = get_weather()
             weathercount += 1
-            urllib.request.urlretrieve(URL, fullname)
+            urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
             logging.info('Inserting weather into image')
             insert_weather_data(fullname, weatherdata)
             save_lastindex(path, counter)
             counter += 1
-            time.sleep(INTERVAL)
+            time.sleep(CONFIG['recording']['interval'])
             if weathercount > 39:
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
@@ -88,7 +90,7 @@ def get_images(day, path):
 
 def create_timelapse(day, source_path, dest_path):
     date = day.strftime('%Y%m%d')
-    f = FILENAME.replace('%i', date)
+    f = CONFIG['general']['filename'].replace('%i', date)
     fn, file_extension = os.path.splitext(f)
     fn = path_leaf(fn)
     fullname = f'{dest_path}/{fn}.mp4'
@@ -110,8 +112,10 @@ def create_timelapse(day, source_path, dest_path):
 
 def get_weather():
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
-    # api.openweathermap.org/data/2.5/weather?id=2172797
-    complete_url = f'{base_url}appid={OPENWEATHER_APIKEY}&id={OPENWEATEHR_ID}&units=metric'
+    apikey = CONFIG['weather']['openweather_apikey']
+    location_id = CONFIG['weather']['openweather_id']
+    units = CONFIG['weather']['units']
+    complete_url = f'{base_url}appid={apikey}&id={location_id}&units={units}'
     logging.info(f'Getting weather information from {complete_url}')
     response = requests.get(complete_url)
     x = response.json()
@@ -150,8 +154,10 @@ def cleanup(path):
         
 
 def get_sun():
-    logging.debug(f'Calculating sun dawn end down for LAT {LAT}, LON {LON}')
-    location = api.Topos(LAT, LON)
+    lat = CONFIG['sun']['lat']
+    lon = CONFIG['sun']['lon']
+    logging.debug(f'Calculating sun dawn end down for LAT {lat}, LON {lon}')
+    location = api.Topos(lat, lon)
     ts = api.load.timescale()
     e = api.load('de421.bsp')
     today = date.today()
@@ -168,7 +174,7 @@ def path_leaf(path):
 
 def save_lastindex(path, index):
     indexfile = f'{path}/lastindex.txt'
-    logging.debug(f'Saving last image index {index} to {indexfile}')
+    logging.debug(f'Saving last image index ({index}) to {indexfile}')
     f = open(indexfile, 'w')
     f.write(str(index))
     f.close
@@ -189,7 +195,7 @@ if __name__ == '__main__':
             get_images(today, path)
             for fname in os.listdir(path):
                 if fname.endswith('.jpg'):
-                    create_timelapse(today, path, DESTINATION_PATH)
+                    create_timelapse(today, path, CONFIG['general']['destination_path'])
                     cleanup(path)
         else:
             print('It´s still dark outside...')
