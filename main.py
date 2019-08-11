@@ -136,23 +136,29 @@ def get_weather():
 
 
 def insert_weather_data(imagefile, data):
+    img_xpos = CONFIG['rendering']['img_xpos']
+    img_ypos = CONFIG['rendering']['img_ypos']
+    txt_xpos = CONFIG['rendering']['txt_xpos']
+    txt_ypos = CONFIG['rendering']['txt_ypos']
+    ypos_step = CONFIG['rendering']['ypos_step']
+    fontsize = CONFIG['rendering']['fontsize']
     logging.info(f'Inserting weather information into image {imagefile}')
     background = Image.open(imagefile)
     draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 20)
+    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', fontsize)
     img_w, img_h = background.size
     img_wind = Image.open('wind_32.png', 'r')
-    background.paste(img_wind, (20, 20), img_wind)
+    background.paste(img_wind, (img_xpos, img_ypos), img_wind)
     img_compass = Image.open('compass_32.png', 'r')
-    background.paste(img_compass, (20, 60), img_compass)
+    background.paste(img_compass, (img_xpos, img_ypos + ypos_step), img_compass)
     img_temp = Image.open('temperature_32.png', 'r')
-    background.paste(img_temp, (20, 100), img_temp)
+    background.paste(img_temp, (img_xpos, img_ypos + ypos_step * 2), img_temp)
     img_pressure = Image.open('pressure_32.png', 'r')
-    background.paste(img_pressure, (20, 140), img_pressure)
-    draw.text((64, 25),f'{data[2]} m/s', font=font, fill=(0,0,0,255))
-    draw.text((64, 65),f'{data[3]}°', font=font, fill=(0,0,0,255))
-    draw.text((64, 106),f'{data[0]}° C', font=font, fill=(0,0,0,255))
-    draw.text((64, 145),f'{data[1]} mbar', font=font, fill=(0,0,0,255))
+    background.paste(img_pressure, (img_xpos, img_ypos + ypos_step * 3), img_pressure)
+    draw.text((txt_xpos, txt_ypos),f'{data[2]} m/s', font=font, fill=(0,0,0,255))
+    draw.text((txt_xpos, txt_ypos + ypos_step),f'{data[3]}°', font=font, fill=(0,0,0,255))
+    draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° C', font=font, fill=(0,0,0,255))
+    draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} mbar', font=font, fill=(0,0,0,255))
     background.save(imagefile)
     pass
     
