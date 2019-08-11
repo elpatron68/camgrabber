@@ -59,9 +59,9 @@ def get_images(day, path):
     logging.debug(f'Sun dawn: {sun_dawn}')
     sun_down = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
     logging.debug(f'Sun down: {sun_down}')
-    start = sun_dawn - timedelta(hours=START_BEFORE_SUNDAWN)
+    start = sun_dawn - timedelta(minutes=START_BEFORE_SUNDAWN)
     logging.debug(f'Start: {start}')
-    end = sun_down + timedelta(hours=END_AFTER_SUNDOWN)
+    end = sun_down + timedelta(minutes=END_AFTER_SUNDOWN)
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
     weather_interval = int(CONFIG['weather']['interval'])
@@ -216,8 +216,8 @@ if __name__ == '__main__':
         now = datetime.utcnow()
         sun_dawn_utc = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
         sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
-        start = sun_dawn_utc - timedelta(hours=START_BEFORE_SUNDAWN)
-        end = sun_down_utc + timedelta(hours=END_AFTER_SUNDOWN)
+        start = sun_dawn_utc - timedelta(minutes=START_BEFORE_SUNDAWN)
+        end = sun_down_utc + timedelta(minutes=END_AFTER_SUNDOWN)
         if now > start and now < end:
             dark = False
             get_images(today, path)
