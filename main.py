@@ -175,7 +175,7 @@ def save_lastindex(path, index):
     pass
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s %(message)s')
+    logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
     while 1:
         today = date.today()
         sun = get_sun()
