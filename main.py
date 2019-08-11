@@ -17,6 +17,9 @@ import ffmpeg
 from skyfield import api
 from skyfield import almanac
 
+# Initiate logging
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+
 # Read configuration file
 CONFIG = configparser.ConfigParser()
 if os.path.isfile('camgrabber.ini'):
@@ -184,7 +187,6 @@ def save_lastindex(path, index):
     pass
 
 if __name__ == '__main__':
-    logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
     while 1:
         today = date.today()
         sun = get_sun()
