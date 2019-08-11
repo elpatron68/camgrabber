@@ -142,6 +142,10 @@ def insert_weather_data(imagefile, data):
     txt_ypos = int(CONFIG['rendering']['txt_ypos'])
     ypos_step = int(CONFIG['rendering']['ypos_step'])
     fontsize = int(CONFIG['rendering']['fontsize'])
+    if CONFIG['weather']['units'] == 'metric':
+        temp_unit = "C"
+    else:
+        temp_unit = "F"
     logging.info(f'Inserting weather information into image {imagefile}')
     background = Image.open(imagefile)
     draw = ImageDraw.Draw(background)
@@ -157,7 +161,7 @@ def insert_weather_data(imagefile, data):
     background.paste(img_pressure, (img_xpos, img_ypos + ypos_step * 3), img_pressure)
     draw.text((txt_xpos, txt_ypos),f'{data[2]} m/s', font=font, fill=(0,0,0,255))
     draw.text((txt_xpos, txt_ypos + ypos_step),f'{data[3]}°', font=font, fill=(0,0,0,255))
-    draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° C', font=font, fill=(0,0,0,255))
+    draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° {temp_unit}', font=font, fill=(0,0,0,255))
     draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} mbar', font=font, fill=(0,0,0,255))
     background.save(imagefile)
     pass
