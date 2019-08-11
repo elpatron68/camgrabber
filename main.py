@@ -19,6 +19,7 @@ from skyfield import almanac
 
 # Initiate logging
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
+logging.info('Starting Camgrabber')
 
 # Read configuration file
 CONFIG = configparser.ConfigParser()
@@ -208,7 +209,6 @@ def save_lastindex(path, index):
     pass
 
 if __name__ == '__main__':
-    logging.info('Starting Camgrabber')
     dark = False
     while 1:
         today = date.today()
@@ -231,4 +231,4 @@ if __name__ == '__main__':
             if dark == False:
                 logging.info('It is too dark outside, recording paused')
             dark = True
-            time.sleep(60)
+        time.sleep(60)
