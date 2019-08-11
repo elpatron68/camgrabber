@@ -83,7 +83,8 @@ def get_images(day, path):
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
             logging.info('Inserting weather into image')
             insert_weather_data(fullname, weatherdata)
-            save_lastindex(path, counter)
+            if counter > 0:
+                save_lastindex(path, counter)
             counter += 1
             time.sleep(int(CONFIG['recording']['interval']))
             if weathercount > 39:
@@ -125,15 +126,18 @@ def get_weather():
     logging.info(f'Getting weather information from {complete_url}')
     response = requests.get(complete_url)
     x = response.json()
-    if x['cod'] != '404': 
-        main = x['main'] 
-        current_temperature = main['temp']
-        current_pressure = main['pressure'] 
-        wind = x['wind']
-        windspeed = wind['speed']
-        winddirection = wind['deg']
-        logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
-        return current_temperature, current_pressure, windspeed, winddirection
+    try:
+        if x['cod'] != '404': 
+            main = x['main'] 
+            current_temperature = main['temp']
+            current_pressure = main['pressure'] 
+            wind = x['wind']
+            windspeed = wind['speed']
+            winddirection = wind['deg']
+            logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
+            return current_temperature, current_pressure, windspeed, winddirection
+    except:
+        logging.warn(f'Failed to retreive wetaher data. Response was \n {x}')
 
 
 def insert_weather_data(imagefile, data):
