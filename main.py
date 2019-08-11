@@ -191,6 +191,7 @@ def save_lastindex(path, index):
     pass
 
 if __name__ == '__main__':
+    logging.info('Starting Camgrabber')
     while 1:
         today = date.today()
         sun = get_sun()
