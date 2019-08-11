@@ -58,7 +58,7 @@ def get_images(day, path):
     logging.debug(f'Sun down: {sun_down}')
     start = sun_dawn - timedelta(hours=START_BEFORE_SUNDAWN)
     logging.debug(f'Start: {start}')
-    end = sun_dawn + timedelta(hours=END_AFTER_SUNDOWN)
+    end = sun_down + timedelta(hours=END_AFTER_SUNDOWN)
     logging.debug(f'End: {end}')
 
     while day == date.today():
@@ -170,7 +170,7 @@ def save_lastindex(path, index):
     indexfile = f'{path}/lastindex.txt'
     logging.debug(f'Saving last image index {index} to {indexfile}')
     f = open(indexfile, 'w')
-    f.write(index)
+    f.write(str(index))
     f.close
     pass
 
@@ -181,10 +181,10 @@ if __name__ == '__main__':
         sun = get_sun()
         path = today.strftime('%Y%m%d')
         now = datetime.utcnow()
-        sundawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
-        sundown = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
-        start = sundawn - timedelta(hours=START_BEFORE_SUNDAWN)
-        end = sundawn + timedelta(hours=END_AFTER_SUNDOWN)
+        sun_dawn_utc = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+        sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+        start = sun_dawn_utc - timedelta(hours=START_BEFORE_SUNDAWN)
+        end = sun_down_utc + timedelta(hours=END_AFTER_SUNDOWN)
         if now > start and now < end:
             get_images(today, path)
             for fname in os.listdir(path):
