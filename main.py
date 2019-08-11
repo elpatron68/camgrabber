@@ -63,7 +63,8 @@ def get_images(day, path):
     logging.debug(f'Start: {start}')
     end = sun_down + timedelta(hours=END_AFTER_SUNDOWN)
     logging.debug(f'End: {end}')
-
+    load_interval = int(CONFIG['recording']['interval'])
+    weather_interval = int(CONFIG['weather']['interval'])
     while day == date.today():
         now = datetime.utcnow()
         if now > start and now < end:
@@ -81,8 +82,8 @@ def get_images(day, path):
             if counter > 0:        
                 save_lastindex(path, counter)
             counter += 1
-            time.sleep(int(CONFIG['recording']['interval']))
-            if weathercount > 39 * 3:
+            time.sleep(load_interval)
+            if weathercount > (60 / load_interval * weather_interval) -1:
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
         else:
