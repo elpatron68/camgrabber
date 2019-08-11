@@ -230,5 +230,5 @@ if __name__ == '__main__':
         else:
             if dark == False:
                 logging.info('It is too dark outside, recording paused')
-            dark = True
-        time.sleep(60)
+                dark = True
+            time.sleep(60)
