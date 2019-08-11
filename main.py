@@ -195,11 +195,14 @@ if __name__ == '__main__':
         start = sun_dawn_utc - timedelta(hours=START_BEFORE_SUNDAWN)
         end = sun_down_utc + timedelta(hours=END_AFTER_SUNDOWN)
         if now > start and now < end:
+            dark = False
             get_images(today, path)
             for fname in os.listdir(path):
                 if fname.endswith('.jpg'):
                     create_timelapse(today, path, CONFIG['general']['destination_path'])
                     cleanup(path)
         else:
-            print('It´s still dark outside...')
+            if dark == False:
+                logging.info('It´s dark outside...')
+            dark = True
             time.sleep(60)
