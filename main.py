@@ -22,6 +22,8 @@ OPENWEATEHR_ID = '2862041'
 OPENWEATHER_APIKEY = '6ea7a73741212ae93cb6231852f9f7d0'
 LAT = '53.624721 N'
 LON = '7.153373 E'
+START_BEFORE_SUNDAWN = 1
+END_AFTER_SUNDOWN = 1
 
 
 def get_images(day, path):
@@ -34,8 +36,13 @@ def get_images(day, path):
     counter = 0
     weathercount = 0
     sun = get_sun()
+    sundawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+    sundown = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+    start = sundawn - timedelta(hours=START_BEFORE_SUNDAWN)
+    end = sundawn + timedelta(hours=END_AFTER_SUNDOWN)
     while day == date.today():
-        if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
+        now = datetime.utcnow()
+        if now > start and now < end:
             f = FILENAME.replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
             if weathercount == 0:
@@ -142,7 +149,9 @@ if __name__ == '__main__':
         now = datetime.utcnow()
         sundawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
         sundown = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
-        if now > sundawn and now < sundown:
+        start = sundawn - timedelta(hours=START_BEFORE_SUNDAWN)
+        end = sundawn + timedelta(hours=END_AFTER_SUNDOWN)
+        if now > start and now < end:
             get_images(today, path)
             for fname in os.listdir(path):
                 if fname.endswith('.jpg'):
