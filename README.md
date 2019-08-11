@@ -2,6 +2,8 @@
 
 Saves images from an url in a specific interval and renders a daily time lapse video from the images. Weather data will be included into each image (and of course the video).
 
+![Demo video from the webcam of https://yacht-club-norden.de/](https://youtu.be/SDnwLYIla0E)
+
 ## Requirements
 
 - Python >= 3.6
@@ -25,27 +27,17 @@ Saves images from an url in a specific interval and renders a daily time lapse v
 
 ## Start
 
-To obtain weather data, you need to have a (free) API key from https://openweathermap.org/api. Create an account, log in and generate a key: https://home.openweathermap.org/api_keys.
+### Preparation
 
-Before the first start: Edit `main.py` and change values in the settings section to your needs.
+- To obtain weather data, you need to have a (free) API key from https://openweathermap.org/api. Create an account, log in and generate a key: https://home.openweathermap.org/api_keys.
+- Find the ID of the place for which you want to retreive weather data: Open https://openweathermap.org, search and click on your place. Use the right part of the URL as you ID. Eg. https://openweathermap.org/city/2862041 -> ID = 2862041.
+- Find the geographic coordinates of the place of the webcam (from Google maps or place information on openweathermap.org), They are needed to calculate sun dawn and -down.
 
-_Example settings_
+### Before the first start:
 
-```
-"""
-Change setting below!
-"""
-URL = 'https://www.yacht-club-norden.de/MOBOTIX/nu.jpg'
-INTERVAL = 15
-# Use %i for an incrementing number
-FILENAME = 'ycn-%i.jpg'
-# Search your place on https://openweathermap.org and use the number in the URL (eg. https://openweathermap.org/city/2862041 -> 2862041)
-OPENWEATEHR_ID = '2862041'
-OPENWEATHER_APIKEY = '<insert your openweathermap api key here>'
-# You can get your location from https://maps.google.com. See URL after selecting a location or right click and select "What´s here?"
-LAT = '53.624721 N'
-LON = '7.153373 E'
-```
+- Make a copy of `camgrabber.default.ini`:1
+  `cp camgrabber.default.ini camgrabber.ini`
+- Edit `camgrabber.ini` and change values to your needs (eg `nano camgrabber.ini`).
 
 ### Manual start
 
@@ -67,8 +59,6 @@ LON = '7.153373 E'
     startsecs=10
     stopwaitsecs=5
     user=ubuntu
-    stdout_logfile=/home/ubuntu/camgrabber/log/camgrabber.stdout.log
-    stdout_logfile_maxbytes=100000
     stderr_logfile=/home/ubuntu/camgrabber/log/camgrabber.stderr.log
     stderr_logfile_maxbytes=100000
     ```
