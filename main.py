@@ -3,6 +3,7 @@ import time
 import urllib.request
 import requests
 import ntpath
+import logging
 from datetime import date, timedelta, datetime
 from PIL import Image
 from PIL import ImageFont
@@ -34,6 +35,16 @@ def get_images(day, path):
     else:
         print(f'Successfully created the directory {path}')
     counter = 0
+    indexfile = f'{path}/lastindex.txt'
+    if os.path.isfile(indexfile):
+        f = open(indexfile)
+        counter = int(f.read())
+        f.close()
+        try:
+            os.remove(indexfile)
+        except OSError:
+            pass
+
     weathercount = 0
     sun = get_sun()
     sundawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
@@ -53,6 +64,7 @@ def get_images(day, path):
             urllib.request.urlretrieve(URL, fullname)
             print('Inserting weather into image')
             insert_weather_data(fullname, weatherdata)
+            save_lastindex(path, counter)
             counter += 1
             print(f'Sleeping {INTERVAL} seconds...')
             time.sleep(INTERVAL)
@@ -140,8 +152,14 @@ def path_leaf(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
+def save_lastindex(path, index):
+    f = open(f'{path}/lastindex.txt','w')
+    f.write(index)
+    f.close
+    pass
 
 if __name__ == '__main__':
+    logging.basicConfig(format='%(asctime)s %(message)s')
     while 1:
         today = date.today()
         sun = get_sun()
