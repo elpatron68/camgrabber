@@ -52,11 +52,6 @@ def get_images(day, path):
         logging.info(f'Las image index: {counter}')
         counter += 1
         f.close()
-        try:
-            logging.debug('Delete index file')
-            os.remove(indexfile)
-        except OSError:
-            pass
 
     weathercount = 0
     sun = get_sun()
@@ -83,7 +78,7 @@ def get_images(day, path):
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
             logging.info('Inserting weather into image')
             insert_weather_data(fullname, weatherdata)
-            if counter > 0:
+            if counter > 0:        
                 save_lastindex(path, counter)
             counter += 1
             time.sleep(int(CONFIG['recording']['interval']))
