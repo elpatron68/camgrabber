@@ -137,7 +137,7 @@ def get_weather():
             logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
             return current_temperature, current_pressure, windspeed, winddirection
     except:
-        logging.warn(f'Failed to retreive wetaher data. Response was \n {x}')
+        logging.warn(f'Failed to retreive weather data. Response was \n {x}')
 
 
 def insert_weather_data(imagefile, data):
