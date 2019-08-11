@@ -29,8 +29,8 @@ else:
     sys.exit()
 
 # Constants
-START_BEFORE_SUNDAWN = CONFIG['recording']['start_before_dawn']
-END_AFTER_SUNDOWN = CONFIG['recording']['end_after_sundown']
+START_BEFORE_SUNDAWN = int(CONFIG['recording']['start_before_dawn'])
+END_AFTER_SUNDOWN = int(CONFIG['recording']['end_after_sundown'])
 
 
 def get_images(day, path):
@@ -82,7 +82,7 @@ def get_images(day, path):
             insert_weather_data(fullname, weatherdata)
             save_lastindex(path, counter)
             counter += 1
-            time.sleep(CONFIG['recording']['interval'])
+            time.sleep(int(CONFIG['recording']['interval']))
             if weathercount > 39:
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
