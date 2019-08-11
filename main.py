@@ -2,6 +2,7 @@ import os
 import time
 import urllib.request
 import requests
+import ntpath
 from datetime import date, timedelta, datetime
 from PIL import Image
 from PIL import ImageFont
@@ -56,9 +57,11 @@ def get_images(day, path):
 
 
 def create_timelapse(day, source_path, dest_path):
-    f = FILENAME.replace('%i', day.strftime('%Y%m%d'))
+    date = day.strftime('%Y%m%d')
+    f = FILENAME.replace('%i', date)
     fn, file_extension = os.path.splitext(f)
-    fullname = f'{dest_path}/{fn}'
+    fn = path_leaf(fn)
+    fullname = f'{dest_path}/{fn}.mp4'
     try:
         os.mkdir(dest_path)
     except OSError:
@@ -69,11 +72,11 @@ def create_timelapse(day, source_path, dest_path):
     print(f'Rendering images from {source_path} to mp4 video file: {fullname}')
     (
         ffmpeg
-        .input(f'{source_path}/*.jpg', pattern_type='glob', framerate=25)
-        .output(f'{fullname}.mp4')
+        .input(f'{source_path}/*{file_extension}', pattern_type='glob', framerate=25)
+        .output(f'{fullname}')
         .run()
     )
-
+        
 
 def get_weather():
     base_url = 'http://api.openweathermap.org/data/2.5/weather?'
@@ -125,16 +128,26 @@ def get_sun():
     sun2 = t
     return sun
 
+
+def path_leaf(path):
+    head, tail = ntpath.split(path)
+    return tail or ntpath.basename(head)
+
+
 if __name__ == '__main__':
     while 1:
         today = date.today()
         sun = get_sun()
         path = today.strftime('%Y%m%d')
-        create_timelapse(today, path, DESTINATION_PATH)
-        if datetime.utcnow() > datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ') and datetime.utcnow() < datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ'):
+        now = datetime.utcnow()
+        sundawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+        sundown = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+        if now > sundawn and now < sundown:
             get_images(today, path)
-            create_timelapse(today, path)
-            cleanup(path)
+            for fname in os.listdir(path):
+                if fname.endswith('.jpg'):
+                    create_timelapse(today, path, DESTINATION_PATH)
+                    cleanup(path)
         else:
             print('It´s still dark...')
             time.sleep(60)
