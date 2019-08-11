@@ -4,6 +4,7 @@ import urllib.request
 import requests
 import ntpath
 import logging
+import shutil
 from datetime import date, timedelta, datetime
 from PIL import Image
 from PIL import ImageFont
@@ -126,13 +127,13 @@ def insert_weather_data(imagefile, data):
     
 
 def cleanup(path):
-    images = os.listdir(path)
-    for item in images:
-        if item.endswith('.jpg'):
-            try:
-                os.remove(os.path.join(path, item))
-            except:
-                pass
+    logging.info(f'Cleanup: Remove directory {path}')
+    if os.path.exists(path):
+        try:
+            shutil.rmtree(path)
+        except:
+            logging.warn('Cleanup failed')
+            pass
         
 
 def get_sun():
