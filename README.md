@@ -27,7 +27,7 @@ Click on the image to see the video on YouTube
   `pip install -r requirements.txt`
 - Download the needed font from http://www.911fonts.com/font/download_MicrosoftSansSerifRegular_6457.htm and save it as `MicrosoftSansSerifRegular.ttf` in the same directory as `main.py`
 
-## Start
+## Start recording
 
 ### Preparation
 
@@ -64,9 +64,9 @@ Click on the image to see the video on YouTube
     stderr_logfile=/home/ubuntu/camgrabber/log/camgrabber.stderr.log
     stderr_logfile_maxbytes=100000
     ```
-    (Change `directory`, `command` and `user`)
+    (Change `directory`, `command`, `stderr_logfile` and `user`)
 - Reread and update the configuration: `sudo supervisorctl reread && sudo supervisorctl update`
-- Check status: `sudo supervisorctl status`
+- Check the status: `sudo supervisorctl status`
 
 If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloading/ might help.
 
