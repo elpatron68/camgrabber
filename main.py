@@ -41,7 +41,7 @@ def get_images(day, path):
     try:
         os.mkdir(path)
     except OSError:
-        logging.warn(f'Creation of the directory {path} failed')
+        logging.debug(f'Creation of the directory {path} failed')
     counter = 0
     indexfile = f'{path}/lastindex.txt'
     
