@@ -77,7 +77,7 @@ def get_images(day, path):
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
-            logging.info('Inserting weather into image')
+            # logging.info('Inserting weather into image')
             insert_weather_data(fullname, weatherdata)
             if counter > 0:        
                 save_lastindex(path, counter)
