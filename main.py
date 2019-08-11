@@ -219,6 +219,7 @@ if __name__ == '__main__':
         start = sun_dawn_utc - timedelta(minutes=START_BEFORE_SUNDAWN)
         end = sun_down_utc + timedelta(minutes=END_AFTER_SUNDOWN)
         if now > start and now < end:
+            logging.info('The sun has risen, start recording')
             dark = False
             get_images(today, path)
             for fname in os.listdir(path):
