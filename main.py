@@ -142,14 +142,21 @@ def get_weather():
 
 def insert_weather_data(imagefile, data):
     logging.info(f'Inserting weather information into image {imagefile}')
-    img = Image.open(imagefile)
-    draw = ImageDraw.Draw(img)
-    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 16)
-    draw.text((20, 40),f'Wind speed: {data[2]} m/s', font=font, fill=(255,0,0,255))
-    draw.text((20, 60),f'Wind direction: {data[3]}°', font=font, fill=(255,0,0,255))
-    draw.text((20, 80),f'Air pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
-    draw.text((20, 100),f'Air temperature: {data[0]}° C', font=font, fill=(255,0,0,255))
-    img.save(imagefile)
+    background = Image.open(imagefile)
+    draw = ImageDraw.Draw(background)
+    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', 20)
+    img_w, img_h = background.size
+    img_wind = Image.open('wind_32.png', 'r')
+    background.paste(img_wind, (20, 20), img_wind)
+    img_compass = Image.open('compass_32.png', 'r')
+    background.paste(img_wind, (20, 60), img_compass)
+    img_temp = Image.open('temperature_32.png', 'r')
+    background.paste(img_wind, (20, 100), img_temp)
+    draw.text((64, 25),f'{data[2]} m/s', font=font, fill=(0,0,0,255))
+    draw.text((64, 65),f'{data[3]}°', font=font, fill=(0,0,0,255))
+    draw.text((64, 106),f'{data[0]}° C', font=font, fill=(0,0,0,255))
+    # draw.text((20, 80),f'Air Pressure: {data[1]} mbar', font=font, fill=(255,0,0,255))
+    background.save(imagefile)
     pass
     
 

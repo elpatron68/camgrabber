@@ -72,6 +72,10 @@ Click on the image to see the video on YouTube
 
 If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloading/ might help.
 
+## Thanks
+
+Thanks to Alessio Atzeni for his free weather icons from https://www.iconfinder.com/iconsets/meteocons
+
 ## License & Copyright
 
 This Script is licensed under the *MIT License*
