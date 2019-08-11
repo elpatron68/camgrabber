@@ -229,6 +229,6 @@ if __name__ == '__main__':
                     cleanup(path)
         else:
             if dark == False:
-                logging.info('It is too dark outside, recording paused')
+                logging.info(f'It is too dark outside, recording paused until {start} UTC')
                 dark = True
             time.sleep(60)
