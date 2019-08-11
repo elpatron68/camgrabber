@@ -18,7 +18,7 @@ from skyfield import api
 from skyfield import almanac
 
 # Initiate logging
-logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 
 # Read configuration file
 CONFIG = configparser.ConfigParser()
