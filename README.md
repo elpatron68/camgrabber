@@ -41,7 +41,8 @@ Click on the image to see the video on YouTube
 
 - Make a copy of `camgrabber.default.ini`:
   `cp camgrabber.default.ini camgrabber.ini`
-- Edit `camgrabber.ini` and change values to your needs (eg `nano camgrabber.ini`).
+- Edit `camgrabber.ini` and change values to your needs (eg `nano camgrabber.ini`)
+- Create a log directory (`mkdir -p log`) - only needed if you run the script with Supervisor
 
 ### Manual start
 
