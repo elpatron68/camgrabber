@@ -83,7 +83,7 @@ def get_images(day, path):
                 save_lastindex(path, counter)
             counter += 1
             time.sleep(load_interval)
-            if weathercount > (60 / load_interval * weather_interval) -1:
+            if weathercount > (60 / load_interval * weather_interval):
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
         else:
