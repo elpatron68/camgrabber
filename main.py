@@ -69,6 +69,7 @@ def get_images(day, path):
     while day == date.today():
         now = datetime.utcnow()
         if now > start and now < end:
+            logging.info(f'Start recording until {end}')
             logging.info('Loading image')
             f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
