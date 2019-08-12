@@ -16,7 +16,7 @@ Click on the image to see the video on YouTube
 
 ## Installation (Debian/Ubuntu Linux)
 
-- Install some packages
+- Install required packages
   `sudo apt-get update && sudo apt-get install -y ffmpeg graphviz python3 python3-venv`
 - Clone this repository
   `git clone https://github.com/elpatron68/camgrabber.git`
