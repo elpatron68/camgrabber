@@ -26,7 +26,7 @@ Click on the image to see the video on YouTube
   `source venv/bin/activate`
 - Install Python requirements
   `pip install wheel && pip install -r requirements.txt`
-- Download the needed font from http://www.911fonts.com/font/download_MicrosoftSansSerifRegular_6457.htm and save it as `MicrosoftSansSerifRegular.ttf` in the same directory as `main.py`
+- Download the required font from http://www.911fonts.com/font/download_MicrosoftSansSerifRegular_6457.htm and save it as `MicrosoftSansSerifRegular.ttf` in the same directory as `main.py`
 
 ## Start recording
 
