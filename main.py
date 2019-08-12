@@ -104,7 +104,7 @@ def create_timelapse(day, source_path, dest_path):
     try:
         os.mkdir(dest_path)
     except OSError:
-        logging.warn(f'Creation of the directory {dest_path} failed')
+        logging.debug(f'Creation of the directory {dest_path} failed')
 
     logging.info(f'Rendering images from {source_path} to mp4 video file: {fullname}')
     (
