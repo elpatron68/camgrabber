@@ -4,7 +4,7 @@ Camgrabber is a script written in Python that saves images from an url (eg. webc
 
 Demo video from the webcam of https://yacht-club-norden.de/ 
 
-[![Demo video from the webcam of https://yacht-club-norden.de/](https://img.youtube.com/vi/SDnwLYIla0E/0.jpg)](https://www.youtube.com/watch?v=SDnwLYIla0E)
+[![Demo video from the webcam of https://yacht-club-norden.de/](https://img.youtube.com/vi/Hdbsr5uWUq4/0.jpg)](https://www.youtube.com/watch?v=Hdbsr5uWUq4)
 
 Click on the image to see the video on YouTube
 
