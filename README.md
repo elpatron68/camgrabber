@@ -45,8 +45,10 @@ Click on the image to see the video on YouTube
 
 ### Manual start
 
-`source venv/bin/activate`
-`python main.py`
+```
+source venv/bin/activate
+python main.py
+```
 
 ### Run permanently with Supervisor
 
