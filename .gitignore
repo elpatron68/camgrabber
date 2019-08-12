@@ -13,3 +13,4 @@ Leap_Second.dat
 camgrabber.ini
 lastindex.txt
 *.ttf
+oauth-secret.json
