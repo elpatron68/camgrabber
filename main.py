@@ -233,7 +233,12 @@ def upload_youtube(filename):
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
     logging.info(f'Uploading {filename} to YouTube. Playlist: {playlist}, title: {title}, privacy: {privacy}')
-    subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+    try:
+        result = subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+    except:
+        logging.warn(f'Launching youtube-upload subprocess failed!')
+    if result:
+        logging.debug(f'YT upload result: {result}')
     pass
 
 if __name__ == '__main__':
