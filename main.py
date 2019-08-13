@@ -225,6 +225,9 @@ def save_lastindex(path, index):
     f.close
     pass
 
+def upload_youtube(filename):
+    pass
+
 if __name__ == '__main__':
     dark = False
     while 1:
@@ -240,10 +243,10 @@ if __name__ == '__main__':
             logging.info('The sun has risen, start recording')
             dark = False
             get_images(today, path)
-            for fname in os.listdir(path):
-                if fname.endswith('.jpg'):
-                    create_timelapse(today, path, CONFIG['general']['destination_path'])
-                    cleanup(path)
+            # for fname in os.listdir(path):
+            #    if fname.endswith('.jpg'):
+            create_timelapse(today, path, CONFIG['general']['destination_path'])
+            cleanup(path)
         else:
             if dark == False:
                 logging.info(f'It is too dark outside, recording paused until {start} UTC')
