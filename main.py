@@ -56,7 +56,7 @@ def get_images(day, path):
     try:
         os.mkdir('longterm')
     except OSError:
-        logging.debug(f'Creation of the directory {path} longterm')
+        logging.debug(f'Creation of the directory longterm')
     counter = 0
     longterm_counter = 0
     indexfile = f'{path}/lastindex.txt'
