@@ -143,6 +143,8 @@ def get_weather():
         if x['cod'] != '404': 
             main = x['main'] 
             current_temperature = main['temp']
+            try:
+                current_temperature = str(round(float(current_temperature), 1))
             current_pressure = main['pressure'] 
             wind = x['wind']
             windspeed = wind['speed']
