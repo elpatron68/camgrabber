@@ -10,6 +10,7 @@ import configparser
 from datetime import date
 from datetime import timedelta
 from datetime import datetime
+from shutil import copyfile
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw 
@@ -38,19 +39,21 @@ END_AFTER_SUNDOWN = int(CONFIG['recording']['end_after_sundown'])
 
 
 def get_images(day, path):
-    logging.debug(f'Creating directory {path}')
+    logging.debug(f'Creating directories {path}')
     try:
         os.mkdir(path)
+        os.mkdir('longterm')
     except OSError:
         logging.debug(f'Creation of the directory {path} failed')
     counter = 0
+    longterm_counter = 0
     indexfile = f'{path}/lastindex.txt'
     
     if os.path.isfile(indexfile):
         logging.info(f'Reading last image index from {indexfile}')
         f = open(indexfile)
         counter = int(f.read())
-        logging.info(f'Las image index: {counter}')
+        logging.info(f'Last image index: {counter}')
         counter += 1
         f.close()
 
@@ -63,6 +66,7 @@ def get_images(day, path):
     start = sun_dawn - timedelta(minutes=START_BEFORE_SUNDAWN)
     logging.debug(f'Start: {start}')
     end = sun_down + timedelta(minutes=END_AFTER_SUNDOWN)
+    timediff = (end - start).seconds
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
     weather_interval = int(CONFIG['weather']['interval'])
@@ -79,7 +83,15 @@ def get_images(day, path):
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
-            # logging.info('Inserting weather into image')
+            if CONFIG['recording']['long_term'].lower() == 'true':
+                if counter > (timediff / load_interval / 2) and longterm_counter < 48:
+                    f1 = CONFIG['general']['filename'].replace('%i', str(longterm_counter).zfill(2))
+                    d1 = date.today().strftime('%Y%m%d')
+                    logging.info(f'Saving image #{longterm_counter} for long term time lapse {d1}-lt-{f1}')
+                    dst = f'longterm/{d1}-lt-{f1}'
+                    copyfile(fullname, dst)
+                    longterm_counter += 1
+                    pass
             insert_weather_data(fullname, weatherdata)
             if counter > 0:        
                 save_lastindex(path, counter)
@@ -89,7 +101,7 @@ def get_images(day, path):
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
         else:
-            logging.info('Time before start or after end, breaking loop')
+            logging.info(f'Stop recording. {str(counter)} images saved.')
             break
 
 
@@ -173,7 +185,7 @@ def insert_weather_data(imagefile, data):
     
 
 def cleanup(path):
-    if CONFIG['recording']['delete_images']).tolower == 'true':
+    if CONFIG['recording']['delete_images'].lower() == 'true':
         logging.info(f'Cleanup: Remove directory {path}')
         if os.path.exists(path):
             try:

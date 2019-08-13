@@ -74,6 +74,21 @@ python main.py
 
 If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloading/ might help.
 
+## Update
+
+### Manual Update
+
+`git pull && sudo /usr/bin/supervisorctl restart camgrabber`
+
+### Automatic Update with Crontab
+
+`crontab -e`
+
+Add this line to update daily at 00:10 h and restart the script:
+
+`10 0 * * * cd /home/ubuntu/camgrabber && /usr/bin/git pull && sudo /usr/bin/supervisorctl restart camgrabber` (adjust paths)
+
+
 ## Thanks
 
 Thanks to Alessio Atzeni for his free weather icons from https://www.iconfinder.com/iconsets/meteocons
