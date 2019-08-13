@@ -82,11 +82,12 @@ def get_images(day, path):
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
     weather_interval = int(CONFIG['weather']['interval'])
-    
+    if datetime.utcnow() > start and datetime.utcnow() < end:
+        logging.info(f'Start recording until {end}')
+
     while day == date.today():
         now = datetime.utcnow()
         if now > start and now < end:
-            logging.info(f'Start recording until {end}')
             logging.info('Loading image')
             f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
