@@ -34,6 +34,14 @@ elif os.path.isfile('camgrabber.default.ini'):
 else:
     sys.exit()
 
+# Set log level from configiration
+if CONFIG['general']['loglevel'].tower() == 'debug':
+    logging.getLogger().setLevel(logging.DEBUG)
+elif CONFIG['general']['loglevel'].tower() == 'info':
+    logging.getLogger().setLevel(logging.INFO)
+elif CONFIG['general']['loglevel'].tower() == 'warning':
+    logging.getLogger().setLevel(logging.WARNING)
+
 # Constants
 START_BEFORE_SUNDAWN = int(CONFIG['recording']['start_before_dawn'])
 END_AFTER_SUNDOWN = int(CONFIG['recording']['end_after_sundown'])
@@ -152,7 +160,7 @@ def get_weather():
             logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
             return current_temperature, current_pressure, windspeed, winddirection
     except:
-        logging.warn(f'Failed to retreive weather data. Response was\n {x}')
+        logging.warn(f'Failed to retreive weather data. Response was\n{x}')
 
 
 def insert_weather_data(imagefile, data):
