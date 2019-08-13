@@ -35,11 +35,11 @@ else:
     sys.exit()
 
 # Set log level from configuration
-if CONFIG['general']['loglevel'].tower() == 'debug':
+if CONFIG['general']['loglevel'].lower() == 'debug':
     logging.getLogger().setLevel(logging.DEBUG)
-elif CONFIG['general']['loglevel'].tower() == 'info':
+elif CONFIG['general']['loglevel'].lower() == 'info':
     logging.getLogger().setLevel(logging.INFO)
-elif CONFIG['general']['loglevel'].tower() == 'warning':
+elif CONFIG['general']['loglevel'].lower() == 'warning':
     logging.getLogger().setLevel(logging.WARNING)
 
 # Constants
@@ -154,6 +154,8 @@ def get_weather():
             current_temperature = main['temp']
             try:
                 current_temperature = str(round(float(current_temperature), 1))
+            except:
+                logging.warn(f'Temperature conversion failed')
             current_pressure = main['pressure'] 
             wind = x['wind']
             windspeed = wind['speed']
