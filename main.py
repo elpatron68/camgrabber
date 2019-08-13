@@ -148,7 +148,7 @@ def get_weather():
             logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
             return current_temperature, current_pressure, windspeed, winddirection
     except:
-        logging.warn(f'Failed to retreive weather data. Response was \n {x}')
+        logging.warn(f'Failed to retreive weather data. Response was\n {x}')
 
 
 def insert_weather_data(imagefile, data):
@@ -168,7 +168,7 @@ def insert_weather_data(imagefile, data):
     background = Image.open(imagefile)
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', fontsize)
-    img_w, img_h = background.size
+    # img_w, img_h = background.size
     img_wind = Image.open('wind_32.png', 'r')
     background.paste(img_wind, (img_xpos, img_ypos), img_wind)
     img_compass = Image.open('compass_32.png', 'r')

@@ -80,13 +80,15 @@ If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloa
 
 `git pull && sudo /usr/bin/supervisorctl restart camgrabber`
 
-### Automatic Update with Crontab
+### Automatic Update using Crontab
+
+Edit your crontab configuration
 
 `crontab -e`
 
 Add this line to update daily at 00:10 h and restart the script:
 
-`10 0 * * * cd /home/ubuntu/camgrabber && /usr/bin/git pull && sudo /usr/bin/supervisorctl restart camgrabber` (adjust paths)
+`10 0 * * * cd /home/ubuntu/camgrabber && /usr/bin/git pull origin master && sudo /usr/bin/supervisorctl restart camgrabber` (adjust paths)
 
 
 ## Thanks
