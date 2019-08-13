@@ -34,7 +34,7 @@ elif os.path.isfile('camgrabber.default.ini'):
 else:
     sys.exit()
 
-# Set log level from configiration
+# Set log level from configuration
 if CONFIG['general']['loglevel'].tower() == 'debug':
     logging.getLogger().setLevel(logging.DEBUG)
 elif CONFIG['general']['loglevel'].tower() == 'info':
