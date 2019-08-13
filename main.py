@@ -100,7 +100,8 @@ def get_images(day, path):
             # Keep 50 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
                 startlongterm = timediff_secs / load_interval / 2
-                if counter > startlongterm and longterm_counter < 50:
+                endlongterm = startlongterm + 50
+                if counter > startlongterm and longterm_counter < 50 and counter < endlongterm:
                     f1 = CONFIG['general']['filename'].replace('%i', str(longterm_counter).zfill(2))
                     d1 = date.today().strftime('%Y%m%d')
                     logging.info(f'Saving image #{longterm_counter} for long term time lapse: {d1}-lt-{f1}')
