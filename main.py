@@ -83,6 +83,7 @@ def get_images(day, path):
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
+            # Keep 48 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
                 if counter > (timediff / load_interval / 2) and longterm_counter < 48:
                     f1 = CONFIG['general']['filename'].replace('%i', str(longterm_counter).zfill(2))
