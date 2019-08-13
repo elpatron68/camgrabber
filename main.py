@@ -232,6 +232,7 @@ def upload_youtube(filename):
     playlist = CONFIG['youtube']['playlist']
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
+    logging.info(f'Uploading {filename} to YouTube. Playlist: {playlist}, title: {title}, privacy: {privacy}')
     subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
     pass
 
