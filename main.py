@@ -7,6 +7,7 @@ import ntpath
 import logging
 import shutil
 import configparser
+import subprocess
 from datetime import date
 from datetime import timedelta
 from datetime import datetime
@@ -126,6 +127,7 @@ def create_timelapse(day, source_path, dest_path):
         .output(f'{fullname}')
         .run()
     )
+    return fullname
         
 
 def get_weather():
@@ -226,6 +228,11 @@ def save_lastindex(path, index):
     pass
 
 def upload_youtube(filename):
+    title = CONFIG['youtube']['title']
+    playlist = CONFIG['youtube']['playlist']
+    embeddable = CONFIG['youtube']['embeddable']
+    privacy = CONFIG['youtube']['privacy']
+    subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
     pass
 
 if __name__ == '__main__':
@@ -243,10 +250,11 @@ if __name__ == '__main__':
             logging.info('The sun has risen, start recording')
             dark = False
             get_images(today, path)
-            # for fname in os.listdir(path):
-            #    if fname.endswith('.jpg'):
-            create_timelapse(today, path, CONFIG['general']['destination_path'])
+            videofile = create_timelapse(today, path, CONFIG['general']['destination_path'])
+            logging.info(f'Video rendered: {videofile}')
             cleanup(path)
+            if CONFIG['youtube']['enabled'].lower() == 'true':
+                upload_youtube(videofile)
         else:
             if dark == False:
                 logging.info(f'It is too dark outside, recording paused until {start} UTC')
