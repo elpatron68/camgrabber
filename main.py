@@ -30,7 +30,7 @@ if os.path.isfile('camgrabber.ini'):
     CONFIG.read('camgrabber.ini')
 elif os.path.isfile('camgrabber.default.ini'):
     CONFIG.read('camgrabber.default.ini')
-    logging.info('Using default.ini')
+    logging.warn('Falling back to default ini. Possibly, openweather API key is missing!')
 else:
     sys.exit()
 
@@ -261,7 +261,7 @@ def upload_youtube(filename):
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
-        result = subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+        result = subprocess.call(['youtube-upload', f'--title="{title}""', f'--playlist="{playlist}""', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
         if CONFIG['telegram']['enabled'].lower() == 'true':
             logging.info(f'Sending Telegram message')
             try:
