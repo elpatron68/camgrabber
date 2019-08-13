@@ -66,7 +66,7 @@ def get_images(day, path):
     start = sun_dawn - timedelta(minutes=START_BEFORE_SUNDAWN)
     logging.debug(f'Start: {start}')
     end = sun_down + timedelta(minutes=END_AFTER_SUNDOWN)
-    timediff = (end - start).seconds
+    timediff_secs = (end - start).seconds
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
     weather_interval = int(CONFIG['weather']['interval'])
@@ -83,12 +83,12 @@ def get_images(day, path):
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
-            # Keep 48 images after noon for long term time lapse (without weather information)
+            # Keep 50 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
-                if counter > (timediff / load_interval / 2) and longterm_counter < 48:
+                if counter > (timediff_secs / load_interval / 2) and longterm_counter < 50:
                     f1 = CONFIG['general']['filename'].replace('%i', str(longterm_counter).zfill(2))
                     d1 = date.today().strftime('%Y%m%d')
-                    logging.info(f'Saving image #{longterm_counter} for long term time lapse {d1}-lt-{f1}')
+                    logging.info(f'Saving image #{longterm_counter} for long term time lapse: {d1}-lt-{f1}')
                     dst = f'longterm/{d1}-lt-{f1}'
                     copyfile(fullname, dst)
                     longterm_counter += 1
