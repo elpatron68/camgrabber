@@ -79,6 +79,7 @@ def get_images(day, path):
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
     weather_interval = int(CONFIG['weather']['interval'])
+    
     while day == date.today():
         now = datetime.utcnow()
         if now > start and now < end:
