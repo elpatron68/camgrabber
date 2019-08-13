@@ -96,16 +96,18 @@ def get_images(day, path):
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
+
             # Keep 50 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
-                if counter > (timediff_secs / load_interval / 2) and longterm_counter < 50:
+                startlongterm = timediff_secs / load_interval / 2
+                if counter > startlongterm and longterm_counter < 50:
                     f1 = CONFIG['general']['filename'].replace('%i', str(longterm_counter).zfill(2))
                     d1 = date.today().strftime('%Y%m%d')
                     logging.info(f'Saving image #{longterm_counter} for long term time lapse: {d1}-lt-{f1}')
                     dst = f'longterm/{d1}-lt-{f1}'
                     copyfile(fullname, dst)
                     longterm_counter += 1
-                    pass
+
             insert_weather_data(fullname, weatherdata)
             if counter > 0:        
                 save_lastindex(path, counter)
