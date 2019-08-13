@@ -142,6 +142,12 @@ def create_timelapse(day, source_path, dest_path):
         .output(f'{fullname}')
         .run()
     )
+    if CONFIG['telegram']['enabled'].lower() == 'true':
+        logging.info(f'Sending Telegram message')
+        try:
+            subprocess.call(['telegram-send', f'"Camgrabber has rendered a new daily video: {fullname}."'])
+        except:
+            logging.warn('Sending Telegram message failed.')
     return fullname
         
 
@@ -255,6 +261,12 @@ def upload_youtube(filename):
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
         result = subprocess.call(['youtube-upload', f'--title={title}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+        if CONFIG['telegram']['enabled'].lower() == 'true':
+            logging.info(f'Sending Telegram message')
+            try:
+                subprocess.call(['telegram-send', '"Camgrabber has uploaded a new daily video to YouTube."'])
+            except:
+                logging.warn('Sending Telegram message failed.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
     if result:

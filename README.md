@@ -90,6 +90,8 @@ Add this line to update daily at 00:10 h and restart the script:
 
 `10 0 * * * cd /home/ubuntu/camgrabber && /usr/bin/git pull origin master && sudo /usr/bin/supervisorctl restart camgrabber` (adjust paths)
 
+Note: The user (in this case *ubuntu*) has to be able to use `sudo` without password.
+
 
 ## Thanks
 
