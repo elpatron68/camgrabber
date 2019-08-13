@@ -173,13 +173,16 @@ def insert_weather_data(imagefile, data):
     
 
 def cleanup(path):
-    logging.info(f'Cleanup: Remove directory {path}')
-    if os.path.exists(path):
-        try:
-            shutil.rmtree(path)
-        except:
-            logging.warn('Cleanup failed')
-            pass
+    if CONFIG['recording']['delete_images']).tolower == 'true':
+        logging.info(f'Cleanup: Remove directory {path}')
+        if os.path.exists(path):
+            try:
+                shutil.rmtree(path)
+            except:
+                logging.warn('Cleanup failed')
+                pass
+    else:
+        logging.debug('Deleting of image files disabled')
         
 
 def get_sun():
