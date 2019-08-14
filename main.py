@@ -30,7 +30,7 @@ if os.path.isfile('camgrabber.ini'):
     CONFIG.read('camgrabber.ini')
 elif os.path.isfile('camgrabber.default.ini'):
     CONFIG.read('camgrabber.default.ini')
-    logging.warn('Falling back to default ini. Possibly, openweather API key is missing!')
+    logging.warn('Falling back to default ini. Possibly, at least the openweather API key is missing! Other things may go wrong, too.')
 else:
     sys.exit()
 
