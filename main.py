@@ -81,7 +81,7 @@ def get_images(day, path):
     timediff_secs = (end - start).seconds
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
-    number_of_images = timediff_secs / load_interval
+    number_of_images = int(timediff_secs / load_interval)
     weather_interval = int(CONFIG['weather']['interval'])
     if datetime.utcnow() > start and datetime.utcnow() < end:
         logging.info(f'Start recording a total number of {number_of_images} images until {end}')
@@ -95,7 +95,7 @@ def get_images(day, path):
             fullname = f'{path}/{f}'
             logging.info(f'Processing image #{counter +1} of total {number_of_images} today. Filename: {fullname}')
             if weathercount == 0:
-                logging.info('Loading new weather information')
+                logging.debug('Loading new weather information')
                 weatherdata = get_weather()
             weathercount += 1
             urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
