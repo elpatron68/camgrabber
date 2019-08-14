@@ -81,18 +81,19 @@ def get_images(day, path):
     timediff_secs = (end - start).seconds
     logging.debug(f'End: {end}')
     load_interval = int(CONFIG['recording']['interval'])
+    number_of_images = timediff_secs / load_interval
     weather_interval = int(CONFIG['weather']['interval'])
     if datetime.utcnow() > start and datetime.utcnow() < end:
-        logging.info(f'Start recording until {end}')
-        send_telegram(f'Good morning. Camgrabber starts recording images now until {end} UTC.')
+        logging.info(f'Start recording a total number of {number_of_images} images until {end}')
+        send_telegram(f'Good morning. Camgrabber starts recording a total number of {number_of_images} images until {end} UTC.')
 
     while day == date.today():
         now = datetime.utcnow()
         if now > start and now < end:
-            logging.info('Loading image')
+            logging.debug('Loading image')
             f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
-            logging.debug(f'Image file name: {fullname}')
+            logging.info(f'Processing image #{counter +1} of total {number_of_images} today. Filename: {fullname}')
             if weathercount == 0:
                 logging.info('Loading new weather information')
                 weatherdata = get_weather()
@@ -155,7 +156,7 @@ def get_weather():
     location_id = CONFIG['weather']['openweather_id']
     units = CONFIG['weather']['units']
     complete_url = f'{base_url}appid={apikey}&id={location_id}&units={units}'
-    logging.info(f'Getting weather information from {complete_url}')
+    logging.debug(f'Getting weather information from {complete_url}')
     response = requests.get(complete_url)
     x = response.json()
     try:
@@ -174,6 +175,7 @@ def get_weather():
             return current_temperature, current_pressure, windspeed, winddirection
     except:
         logging.warn(f'Failed to retreive weather data. Response was\n{x}')
+    pass
 
 
 def insert_weather_data(imagefile, data):
