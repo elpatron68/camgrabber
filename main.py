@@ -84,7 +84,7 @@ def get_images(day, path):
     weather_interval = int(CONFIG['weather']['interval'])
     if datetime.utcnow() > start and datetime.utcnow() < end:
         logging.info(f'Start recording until {end}')
-        send_telegram(f'Good morning. Camgrabber starts recording images now until {end}.')
+        send_telegram(f'Good morning. Camgrabber starts recording images now until {end} UTC.')
 
     while day == date.today():
         now = datetime.utcnow()
