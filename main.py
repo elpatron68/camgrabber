@@ -121,7 +121,7 @@ def get_images(day, path):
                 weathercount = 0
         else:
             logging.info(f'Stop recording. {str(counter)} images saved.')
-            send_telegram('Good evening. It´s dark outside, Camgrabber stops recording images now. We have collected {str(counter)} images today.')
+            send_telegram(f'Good evening. Camgrabber stops recording images now. We have collected {str(counter)} images today.')
             break
 
 
