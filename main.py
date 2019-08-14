@@ -84,6 +84,7 @@ def get_images(day, path):
     weather_interval = int(CONFIG['weather']['interval'])
     if datetime.utcnow() > start and datetime.utcnow() < end:
         logging.info(f'Start recording until {end}')
+        send_telegram(f'Good morning. Camgrabber starts recording images now until {end}.')
 
     while day == date.today():
         now = datetime.utcnow()
@@ -120,6 +121,7 @@ def get_images(day, path):
                 weathercount = 0
         else:
             logging.info(f'Stop recording. {str(counter)} images saved.')
+            send_telegram('Good evening. It´s dark outside, Camgrabber stops recording images now. We have collected {str(counter)} images today.')
             break
 
 
@@ -143,12 +145,7 @@ def create_timelapse(day, source_path, dest_path):
         .output(f'{fullname}')
         .run()
     )
-    if CONFIG['telegram']['enabled'].lower() == 'true':
-        logging.info(f'Sending Telegram message')
-        try:
-            subprocess.call(['telegram-send', f'"Camgrabber has rendered a new daily video: {fullname}."'])
-        except:
-            logging.warn('Sending Telegram message failed.')
+    send_telegram(f'Camgrabber has rendered a new daily video: {fullname}.')
     return fullname
         
 
@@ -224,7 +221,8 @@ def cleanup(path):
                 pass
     else:
         logging.debug('Deleting of image files disabled')
-        
+    pass
+
 
 def get_sun():
     lat = CONFIG['sun']['lat']
@@ -245,6 +243,7 @@ def path_leaf(path):
     head, tail = ntpath.split(path)
     return tail or ntpath.basename(head)
 
+
 def save_lastindex(path, index):
     indexfile = f'{path}/lastindex.txt'
     logging.debug(f'Saving last image index ({index}) to {indexfile}')
@@ -252,6 +251,7 @@ def save_lastindex(path, index):
     f.write(str(index))
     f.close
     pass
+
 
 def upload_youtube(filename):
     title = CONFIG['youtube']['title']
@@ -262,17 +262,22 @@ def upload_youtube(filename):
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
         result = subprocess.call(['youtube-upload', f'--title="{title}""', f'--playlist="{playlist}""', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
-        if CONFIG['telegram']['enabled'].lower() == 'true':
-            logging.info(f'Sending Telegram message')
-            try:
-                subprocess.call(['telegram-send', '"Camgrabber has uploaded a new daily video to YouTube."'])
-            except:
-                logging.warn('Sending Telegram message failed.')
+        send_telegram('Camgrabber has uploaded a new daily video to YouTube.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
     if result:
         logging.debug(f'YT upload result: {result}')
     pass
+
+
+def send_telegram(message):
+    if CONFIG['telegram']['enabled'].lower() == 'true':
+        logging.info(f'Sending Telegram message')
+        try:
+            subprocess.call(['telegram-send', f'"{message}"'])
+        except:
+            logging.warn('Sending Telegram message failed.')
+
 
 if __name__ == '__main__':
     dark = False
