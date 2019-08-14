@@ -256,7 +256,7 @@ def save_lastindex(path, index):
 
 
 def upload_youtube(filename):
-    title = CONFIG['youtube']['title']
+    title = CONFIG['youtube']['title'].replace('%date', date.today().strftime('%d.%m.%Y'))
     playlist = CONFIG['youtube']['playlist']
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
