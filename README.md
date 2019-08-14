@@ -1,12 +1,26 @@
+camgrabber README
+===
 # Camgrabber
 
 Camgrabber is a script written in Python that saves images from an url (eg. webcam still images) in a specific interval and renders a daily "time lapse" video from the images. Weather data (like temperature, wind, air pressure) will be included into each image (and of course the video).
 
-Demo video from the webcam of https://yacht-club-norden.de/ 
+Demo video recorded from the webcam of https://yacht-club-norden.de/ 
 
-[![Demo video from the webcam of https://yacht-club-norden.de/](https://img.youtube.com/vi/Hdbsr5uWUq4/0.jpg)](https://www.youtube.com/watch?v=Hdbsr5uWUq4)
+[![Demo video from the webcam of https://yacht-club-norden.de/](https://i.imgur.com/WD4DbK7.png)](https://www.youtube.com/watch?v=iIyvILQrj_Q)
 
 Click on the image to see the video on YouTube
+
+## Features
+
+- Periodically load still images from a webcam (static image url required)
+- Start- and end time of recording depending on sun dawn and sundown at the geographic location of the webcam
+- Periodically retrieve weather information from openweather.org
+- Paste weather information and icons into each image (metric or imperial units)
+- Render a daily time lapse video from the images
+- Automatically upload daily video to YouTube
+- Record 50 images / day at noon for a long term time lapse video
+- Send status information via Telegram messenger
+- Highly configurable with INI file
 
 ## Requirements
 
