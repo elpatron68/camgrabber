@@ -191,7 +191,7 @@ def insert_weather_data(imagefile, data):
     else:
         temp_unit = "F"
         wind_unit = "miles/hour"
-    logging.info(f'Inserting weather information into image {imagefile}')
+    logging.debug(f'Inserting weather information into image {imagefile}')
     background = Image.open(imagefile)
     draw = ImageDraw.Draw(background)
     font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', fontsize)
