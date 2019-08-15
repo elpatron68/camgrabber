@@ -264,13 +264,14 @@ def save_lastindex(path, index):
 
 def upload_youtube(filename):
     title = CONFIG['youtube']['title'].replace('%date', date.today().strftime('%d.%m.%Y'))
+    description = CONFIG['youtube']['description']
     playlist = CONFIG['youtube']['playlist']
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
-        result = subprocess.call(['youtube-upload', f'--title="{title}""', f'--playlist="{playlist}""', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+        result = subprocess.call(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}""', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
         send_telegram('Camgrabber has uploaded a new daily video to YouTube.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
