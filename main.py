@@ -93,7 +93,7 @@ def get_images(day, path):
             logging.debug('Loading image')
             f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
-            logging.info(f'Processing image #{counter +1} of total {number_of_images} today. Filename: {fullname}')
+            logging.info(f'Processing image #{counter +1}/{number_of_images}. Filename: {fullname}')
             if weathercount == 0:
                 logging.debug('Loading new weather information')
                 weatherdata = get_weather()
