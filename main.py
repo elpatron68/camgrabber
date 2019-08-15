@@ -98,7 +98,14 @@ def get_images(day, path):
                 logging.debug('Loading new weather information')
                 weatherdata = get_weather()
             weathercount += 1
-            urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
+            try:
+                urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
+            except urllib.error.URLError as e:
+                logging.warn(f'Failed loading image (URLError): {str(e)}')
+            except urllib.error.HTTPError as e:
+                logging.warn(f'Failed loading image (HTTPError): {str(e)}')
+            except:
+                logging.warn('Unknown error')
 
             # Keep 50 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
