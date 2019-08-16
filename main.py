@@ -8,6 +8,7 @@ import logging
 import shutil
 import configparser
 import subprocess
+import re
 from datetime import date
 from datetime import timedelta
 from datetime import datetime
@@ -273,6 +274,7 @@ def upload_youtube(filename):
     try:
         result = subprocess.call(['youtube-upload', f'--title={title}', f'--description={description}',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
         yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', result)[0]
+        logging.debug(f'YT URL: {yt_url}')
         send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
