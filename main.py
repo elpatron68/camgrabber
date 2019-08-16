@@ -272,7 +272,8 @@ def upload_youtube(filename):
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
         result = subprocess.call(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}""', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
-        send_telegram('Camgrabber has uploaded a new daily video to YouTube.')
+        yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', result)[0]
+        send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
     if result:
