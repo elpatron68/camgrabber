@@ -129,7 +129,7 @@ def get_images(day, path):
                 weathercount = 0
         else:
             logging.info(f'Stop recording. {str(counter)} images saved.')
-            send_telegram(f'Good evening. Camgrabber stops recording images now. We have collected {str(counter)} images today.')
+            send_telegram(f'Good evening. Camgrabber stops recording images now. We have collected {str(counter)} images today. The video will be rendered, now.')
             break
 
 
@@ -285,7 +285,7 @@ def send_telegram(message):
     if CONFIG['telegram']['enabled'].lower() == 'true':
         logging.info(f'Sending Telegram message')
         try:
-            subprocess.call(['telegram-send', f'"{message}"'])
+            subprocess.call(['telegram-send', f'{message}'])
         except:
             logging.warn('Sending Telegram message failed.')
 
