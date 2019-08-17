@@ -284,9 +284,12 @@ def upload_youtube(filename):
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
         result = subprocess.call(['youtube-upload', f'--title={title}', f'--description={description}',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
-        yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', result)[0]
-        logging.debug(f'YT URL: {yt_url}')
-        send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
+        try:
+            yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', result)[0]
+            logging.debug(f'YT URL: {yt_url}')
+            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
+        except:
+            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
     if result:
