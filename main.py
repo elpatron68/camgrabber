@@ -329,5 +329,6 @@ if __name__ == '__main__':
         else:
             if dark == False:
                 logging.info(f'It is too dark outside, recording paused until {start} UTC')
+                send_telegram(f'Recording paused until {start} UTC')
                 dark = True
             time.sleep(60)
