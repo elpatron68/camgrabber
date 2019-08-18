@@ -186,10 +186,10 @@ def get_weather():
             logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
             
             # Calcutale average waether values
-            WEATHER_VALUES += 1
-            WEATHER_PRESSURE_AVG = (WEATHER_PRESSURE_AVG + current_pressure) / WEATHER_VALUES
-            WEATHER_TEMP_AVG = (WEATHER_TEMP_AVG + current_temperature) / WEATHER_VALUES
-            WEATHER_WINDSPEED_AVG = (WEATHER_WINDSPEED_AVG + windspeed) / WEATHER_VALUES
+            # WEATHER_VALUES += 1
+            # WEATHER_PRESSURE_AVG = (WEATHER_PRESSURE_AVG + current_pressure) / WEATHER_VALUES
+            # WEATHER_TEMP_AVG = (WEATHER_TEMP_AVG + current_temperature) / WEATHER_VALUES
+            # WEATHER_WINDSPEED_AVG = (WEATHER_WINDSPEED_AVG + windspeed) / WEATHER_VALUES
 
             return current_temperature, current_pressure, windspeed, winddirection
     except:
