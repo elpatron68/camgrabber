@@ -107,7 +107,12 @@ def get_images(day, path):
                 logging.warn(f'Failed loading image (HTTPError): {str(e)}')
             except:
                 logging.warn('Unknown error')
-
+            
+            if os.path.isfile(fullname):
+                insert_weather_data(fullname, weatherdata)
+            else:
+                logging.error(f'No image file found.')
+            
             # Keep 50 images after noon for long term time lapse (without weather information)
             if CONFIG['recording']['long_term'].lower() == 'true':
                 startlongterm = timediff_secs / load_interval / 2
@@ -120,7 +125,7 @@ def get_images(day, path):
                     copyfile(fullname, dst)
                     longterm_counter += 1
 
-            insert_weather_data(fullname, weatherdata)
+            
             if counter > 0:        
                 save_lastindex(path, counter)
             counter += 1
@@ -181,11 +186,13 @@ def get_weather():
             winddirection = wind['deg']
             logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
             
-            # Calcutale average waether values
-            # WEATHER_VALUES += 1
-            # WEATHER_PRESSURE_AVG = (WEATHER_PRESSURE_AVG + current_pressure) / WEATHER_VALUES
-            # WEATHER_TEMP_AVG = (WEATHER_TEMP_AVG + current_temperature) / WEATHER_VALUES
-            # WEATHER_WINDSPEED_AVG = (WEATHER_WINDSPEED_AVG + windspeed) / WEATHER_VALUES
+            weatherdata = {}
+            weatherdata['tablename'] = CONFIG['general']['tablename']
+            weatherdata['timestamp'] = datetime.now
+            weatherdata['windspeed'] = windspeed
+            weatherdata['pressure'] = current_pressure
+            weatherdata['temperature'] = current_temperature
+            save_weather_to_db(weatherdata)
 
             return current_temperature, current_pressure, windspeed, winddirection
     except:
@@ -225,14 +232,6 @@ def insert_weather_data(imagefile, data):
     draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} hPa', font=font, fill=(0,0,0,255))
     background.save(imagefile)
     tablename = CONFIG['general']['tablename']
-    weatherdata = {}
-    weatherdata['tablename'] = CONFIG['general']['tablename']
-    weatherdata['timestamp'] = datetime.now
-    weatherdata['windspeed'] = data[2]
-    weatherdata['pressure'] = data[1]
-    weatherdata['temperature'] = data[0]
-
-    save_weather_to_db(weatherdata)
     pass
     
 

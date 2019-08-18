@@ -18,9 +18,6 @@ def update_db(db_file, table_name, data):
     except Error as e:
         print(f'Conversion failed: {e}')
     now = datetime.now()
-    # c.execute('''INSERT INTO example(created_at) VALUES(?)''', (now,))
-    # insert_table_sql = f"INSERT INTO {table_name} (ts, windspeed, pressure, temperature) VALUES ({now}, {wind}, {pressure}, {temp});"
-    # insert_table_sql = '''INSERT INTO {table_name} (ts, windspeed, pressure, temperature) VALUES (?, ?, ?, ?);''', (now, wind, pressure, temp)
     try:
         c = conn.cursor()
         c.execute(f'''INSERT INTO {table_name} (ts, windspeed, pressure, temperature) VALUES (?, ?, ?, ?);''', (now, wind, pressure, temp))
