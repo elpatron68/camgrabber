@@ -19,6 +19,7 @@ from PIL import ImageDraw
 import ffmpeg
 from skyfield import api
 from skyfield import almanac
+import database
 
 # Initiate logging
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
@@ -223,8 +224,22 @@ def insert_weather_data(imagefile, data):
     draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° {temp_unit}', font=font, fill=(0,0,0,255))
     draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} hPa', font=font, fill=(0,0,0,255))
     background.save(imagefile)
+    tablename = CONFIG['general']['tablename']
+    weatherdata = {}
+    weatherdata['tablename'] = CONFIG['general']['tablename']
+    weatherdata['timestamp'] = datetime.now
+    weatherdata['windspeed'] = data[2]
+    weatherdata['pressure'] = data[1]
+    weatherdata['temperature'] = data[0]
+
+    save_weather_to_db(weatherdata)
     pass
     
+
+def save_weather_to_db(data):
+    logging.info(f'Saving weather information to database')
+    database.update_db(CONFIG['general']['database'], data['tablename'], data)
+    pass
 
 def cleanup(path):
     if CONFIG['recording']['delete_images'].lower() == 'true':
@@ -303,6 +318,8 @@ def send_telegram(message):
 
 if __name__ == '__main__':
     dark = False
+    logging.info('Create database file and table if not exist')
+    database.create_db_table(CONFIG['general']['database'], CONFIG['general']['tablename'])
     while 1:
         today = date.today()
         sun = get_sun()

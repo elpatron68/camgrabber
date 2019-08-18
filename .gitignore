@@ -14,3 +14,4 @@ camgrabber.ini
 lastindex.txt
 *.ttf
 oauth-secret.json
+*.sqlite3
