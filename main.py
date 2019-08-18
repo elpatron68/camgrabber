@@ -124,7 +124,6 @@ def get_images(day, path):
                     dst = f'longterm/{d1}-lt-{f1}'
                     copyfile(fullname, dst)
                     longterm_counter += 1
-
             
             if counter > 0:        
                 save_lastindex(path, counter)
