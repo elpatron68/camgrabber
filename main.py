@@ -46,11 +46,6 @@ elif CONFIG['general']['loglevel'].lower() == 'warning':
 # Constants
 START_BEFORE_SUNDAWN = int(CONFIG['recording']['start_before_dawn'])
 END_AFTER_SUNDOWN = int(CONFIG['recording']['end_after_sundown'])
-WEATHER_VALUES = 0
-WEATHER_WINDSPEED_AVG = 0
-WEATHER_TEMP_AVG = 0
-WEATHER_PRESSURE_AVG = 0
-
 
 def get_images(day, path):
     logging.debug(f'Creating directories {path}')
