@@ -15,12 +15,13 @@ def update_db(db_file, table_name, data):
         temp = float(data['temperature'])
         pressure = float(data['pressure'])
         wind = float(data['windspeed'])
+        winddirection = int(data['winddirection'])
     except Error as e:
         print(f'Conversion failed: {e}')
     now = datetime.now()
     try:
         c = conn.cursor()
-        c.execute(f'''INSERT INTO {table_name} (ts, windspeed, pressure, temperature) VALUES (?, ?, ?, ?);''', (now, wind, pressure, temp))
+        c.execute(f'''INSERT INTO {table_name} (ts, windspeed, winddirection, pressure, temperature) VALUES (?, ?, ?, ?);''', (now, wind, pressure, temp))
         conn.commit()
         conn.close()
     except Error as e:
@@ -47,6 +48,7 @@ def create_db_table(db_file, table_name):
                             id integer PRIMARY KEY,
                             ts timestamp,
                             windspeed real,
+                            winddirection integer,
                             pressure real,
                             temperature real
                         );"""

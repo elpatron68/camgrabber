@@ -94,7 +94,7 @@ def get_images(day, path):
             logging.debug('Loading image')
             f = CONFIG['general']['filename'].replace('%i', str(counter).zfill(5))
             fullname = f'{path}/{f}'
-            logging.info(f'Processing image #{counter +1}/{number_of_images}. Filename: {fullname}')
+            logging.info(f'Processing image #{counter +1}/{number_of_images} - filename: {fullname}')
             if weathercount == 0:
                 logging.debug('Loading new weather information')
                 weatherdata = get_weather()
@@ -189,6 +189,7 @@ def get_weather():
             weatherdata['tablename'] = CONFIG['general']['tablename']
             weatherdata['timestamp'] = datetime.now
             weatherdata['windspeed'] = windspeed
+            weatherdata['winddirection'] = winddirection
             weatherdata['pressure'] = current_pressure
             weatherdata['temperature'] = current_temperature
             save_weather_to_db(weatherdata)
