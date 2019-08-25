@@ -92,8 +92,7 @@ If any problems occur, http://www.onurguzel.com/supervisord-restarting-and-reloa
 
 For receiving status messages from Camgrabber with Telegram messenger, you have to install and configure [telegram-send](https://github.com/rahiel/telegram-send). Have a look at the [documentation](https://github.com/rahiel/telegram-send/blob/master/README.md) on how to install and configure *telegram-send*. Afterwards, enable Telegram in your `camgrabber.ini`.
 
-
-![Screenshot](https://rawcdn.githack.com/elpatron68/camgrabber/bd1361e960e91e3f611bb68d8242e95f3154cdbc/telegram.gif | height=600)
+<img src="https://rawcdn.githack.com/elpatron68/camgrabber/bd1361e960e91e3f611bb68d8242e95f3154cdbc/telegram.gif" height="600">
 
 ## Update
 
