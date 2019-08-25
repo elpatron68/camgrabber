@@ -169,35 +169,42 @@ def get_weather():
     units = CONFIG['weather']['units']
     complete_url = f'{base_url}appid={apikey}&id={location_id}&units={units}'
     logging.debug(f'Getting weather information from {complete_url}')
-    response = requests.get(complete_url)
-    x = response.json()
     try:
-        if x['cod'] != '404': 
-            main = x['main'] 
-            current_temperature = main['temp']
-            try:
-                current_temperature = str(round(float(current_temperature), 1))
-            except:
-                logging.warn(f'Temperature conversion failed')
-            current_pressure = main['pressure'] 
-            wind = x['wind']
-            windspeed = wind['speed']
-            winddirection = wind['deg']
-            logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
-            
-            weatherdata = {}
-            weatherdata['tablename'] = CONFIG['general']['tablename']
-            weatherdata['timestamp'] = datetime.now
-            weatherdata['windspeed'] = windspeed
-            weatherdata['winddirection'] = winddirection
-            weatherdata['pressure'] = current_pressure
-            weatherdata['temperature'] = current_temperature
-            save_weather_to_db(weatherdata)
-
-            return current_temperature, current_pressure, windspeed, winddirection
+        response = requests.get(complete_url)
+        x = response.json()
     except:
-        logging.warn(f'Failed to retreive weather data. Response was\n{x}')
-    pass
+        current_temperature = 'n/a'
+        current_pressure = 'n/a'
+        windspeed = 'n/a'
+        winddirection = 'n/a'
+
+    if x:
+        try:
+            if x['cod'] != '404': 
+                main = x['main'] 
+                current_temperature = main['temp']
+                try:
+                    current_temperature = str(round(float(current_temperature), 1))
+                except:
+                    logging.warn(f'Temperature conversion failed')
+                current_pressure = main['pressure'] 
+                wind = x['wind']
+                windspeed = wind['speed']
+                winddirection = wind['deg']
+                logging.debug(f'Temp: {current_temperature}, Pressure: {current_pressure}, Wind speed: {windspeed}, Wind direction: {winddirection}')
+                
+                weatherdata = {}
+                weatherdata['tablename'] = CONFIG['general']['tablename']
+                weatherdata['timestamp'] = datetime.now
+                weatherdata['windspeed'] = windspeed
+                weatherdata['winddirection'] = winddirection
+                weatherdata['pressure'] = current_pressure
+                weatherdata['temperature'] = current_temperature
+                save_weather_to_db(weatherdata)
+
+        except:
+            logging.warn(f'Failed to retreive weather data. Response was\n{x}')
+    return current_temperature, current_pressure, windspeed, winddirection
 
 
 def insert_weather_data(imagefile, data):
