@@ -133,7 +133,7 @@ def get_images(day, path):
                 logging.debug('Resetting weather counter to zero')
                 weathercount = 0
         else:
-            logging.info(f'Stop recording. {str(counter)} images saved.')
+            logging.info(f'Recording stopped, {str(counter)} images saved.')
             send_telegram(f'Good evening. Camgrabber stops recording images now. We have collected {str(counter)} images today. The video will be rendered, now.')
             break
 
