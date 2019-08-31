@@ -221,24 +221,26 @@ def insert_weather_data(imagefile, data):
         temp_unit = "F"
         wind_unit = "miles/hour"
     logging.debug(f'Inserting weather information into image {imagefile}')
-    background = Image.open(imagefile)
-    draw = ImageDraw.Draw(background)
-    font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', fontsize)
     # img_w, img_h = background.size
-    img_wind = Image.open('wind_32.png', 'r')
-    background.paste(img_wind, (img_xpos, img_ypos), img_wind)
-    img_compass = Image.open('compass_32.png', 'r')
-    background.paste(img_compass, (img_xpos, img_ypos + ypos_step), img_compass)
-    img_temp = Image.open('temperature_32.png', 'r')
-    background.paste(img_temp, (img_xpos, img_ypos + ypos_step * 2), img_temp)
-    img_pressure = Image.open('pressure_32.png', 'r')
-    background.paste(img_pressure, (img_xpos, img_ypos + ypos_step * 3), img_pressure)
-    draw.text((txt_xpos, txt_ypos + ypos_step * 0),f'{data[2]} {wind_unit}', font=font, fill=(0,0,0,255))
-    draw.text((txt_xpos, txt_ypos + ypos_step * 1),f'{data[3]}°', font=font, fill=(0,0,0,255))
-    draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° {temp_unit}', font=font, fill=(0,0,0,255))
-    draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} hPa', font=font, fill=(0,0,0,255))
-    background.save(imagefile)
-    tablename = CONFIG['general']['tablename']
+    try:
+        background = Image.open(imagefile)
+        draw = ImageDraw.Draw(background)
+        font = ImageFont.truetype(r'MicrosoftSansSerifRegular.ttf', fontsize)
+        img_wind = Image.open('wind_32.png', 'r')
+        background.paste(img_wind, (img_xpos, img_ypos), img_wind)
+        img_compass = Image.open('compass_32.png', 'r')
+        background.paste(img_compass, (img_xpos, img_ypos + ypos_step), img_compass)
+        img_temp = Image.open('temperature_32.png', 'r')
+        background.paste(img_temp, (img_xpos, img_ypos + ypos_step * 2), img_temp)
+        img_pressure = Image.open('pressure_32.png', 'r')
+        background.paste(img_pressure, (img_xpos, img_ypos + ypos_step * 3), img_pressure)
+        draw.text((txt_xpos, txt_ypos + ypos_step * 0),f'{data[2]} {wind_unit}', font=font, fill=(0,0,0,255))
+        draw.text((txt_xpos, txt_ypos + ypos_step * 1),f'{data[3]}°', font=font, fill=(0,0,0,255))
+        draw.text((txt_xpos, txt_ypos + ypos_step * 2),f'{data[0]}° {temp_unit}', font=font, fill=(0,0,0,255))
+        draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} hPa', font=font, fill=(0,0,0,255))
+        background.save(imagefile)
+    except:
+        logging.warn('Inserting weather data into image failed.')
     pass
     
 
