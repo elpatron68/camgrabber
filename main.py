@@ -7,7 +7,7 @@ import ntpath
 import logging
 import shutil
 import configparser
-import subprocess
+from subprocess import call, Popen, PIPE, STDOUT
 import re
 from datetime import date
 from datetime import timedelta
@@ -299,25 +299,27 @@ def upload_youtube(filename):
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
-        result = subprocess.call(['youtube-upload', f'--title={title}', f'--description={description}',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename])
+        proc = Popen(['youtube-upload', f'--title={title}', f'--description={description}',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename], stdout=PIPE, stderr=PIPE)
+        stdout, stderr = proc.communicate()
         try:
-            yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', result)[0]
-            logging.debug(f'YT URL: {yt_url}')
-            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
+            yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
+            if yt_url:
+                logging.debug(f'YT URL: {yt_url}')
+                send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
+            else:
+                send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
         except:
-            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
+            logging.debug(f'Parsinf regex in {stderr} failed.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
-    if result:
-        logging.debug(f'YT upload result: {result}')
-    pass
+        pass
 
 
 def send_telegram(message):
     if CONFIG['telegram']['enabled'].lower() == 'true':
         logging.info(f'Sending Telegram message')
         try:
-            subprocess.call(['telegram-send', f'{message}'])
+            call(['telegram-send', f'{message}'])
         except:
             logging.warn('Sending Telegram message failed.')
 
