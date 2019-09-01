@@ -307,7 +307,7 @@ def upload_youtube(filename):
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
-        proc = Popen(['youtube-upload', f'--title={title}', f'--description="{description}""',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}""',filename], stdout=PIPE, stderr=PIPE)
+        proc = Popen(['youtube-upload', f'--title={title}', f'--description="{description}""',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdout=PIPE, stderr=PIPE)
         # proc = Popen(['youtube-upload', f'--title={title}', f'--description={description}',f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy {privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
