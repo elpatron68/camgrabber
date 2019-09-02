@@ -313,7 +313,7 @@ def upload_youtube(filename):
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
         # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdout=PIPE, stderr=PIPE)
-        # 
+        # youtube-upload --title="YCN/PieseCam Zeitrafferaufnahme vom 02.09.2019" --description="Zeitraffer-Video der Webcam des Yacht Clubs Norden, erstellt mit  https://github.com/elpatron68/camgrabber" --playlist="YCN-Webcam" --embeddable=True --privacy=public --location="latitude=53.6,longitude=7.1" ./videos/ycn-20190902.mp4
         proc = Popen(['/usr/local/bin/youtube-upload', f'--title="{title}"', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy {privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
