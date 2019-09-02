@@ -314,7 +314,7 @@ def upload_youtube(filename):
     try:
         # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdout=PIPE, stderr=PIPE)
         # 
-        proc = Popen(['youtube-upload', f'--title="{title}"', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy {privacy}', filename], stdout=PIPE, stderr=PIPE)
+        proc = Popen(['/usr/local/bin/youtube-upload', f'--title="{title}"', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy {privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
             yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
