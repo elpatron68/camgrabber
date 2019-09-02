@@ -204,6 +204,11 @@ def get_weather():
 
         except:
             logging.warn(f'Failed to retreive weather data. Response was\n{x}')
+            current_temperature = 'n/a'
+            current_pressure = 'n/a'
+            windspeed = 'n/a'
+            winddirection = 'n/a'
+
     return current_temperature, current_pressure, windspeed, winddirection
 
 
