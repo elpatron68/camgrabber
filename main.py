@@ -98,6 +98,7 @@ def get_images(day, path):
             if weathercount == 0:
                 logging.debug('Loading new weather information')
                 weatherdata = get_weather()
+                ping_healthchecks()
             weathercount += 1
             try:
                 urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
@@ -254,6 +255,17 @@ def save_weather_to_db(data):
     database.update_db(CONFIG['general']['database'], data['tablename'], data)
     pass
 
+def ping_healthchecks():
+    if CONFIG['general']['enable_healtchecks'].lower() == 'true':
+        id = CONFIG['general']['healtchecks_id']
+        url = f'https://hc-ping.com/{id}'
+        logging.info(f'Sending ping to {url}')
+        try:
+            urllib.request.urlopen(url)
+        except:
+            logging.warn('Healtcheck ping failed.')
+
+
 def cleanup(path):
     if CONFIG['recording']['delete_images'].lower() == 'true':
         logging.info(f'Cleanup: Remove directory {path}')
@@ -314,7 +326,7 @@ def upload_youtube(filename):
     try:
         # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdout=PIPE, stderr=PIPE)
         # youtube-upload --title="YCN/PieseCam Zeitrafferaufnahme vom 02.09.2019" --description="Zeitraffer-Video der Webcam des Yacht Clubs Norden, erstellt mit  https://github.com/elpatron68/camgrabber" --playlist="YCN-Webcam" --embeddable=True --privacy=public --location="latitude=53.6,longitude=7.1" ./videos/ycn-20190902.mp4
-        proc = Popen(['/usr/local/bin/youtube-upload', f'--title="{title}"', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy {privacy}', filename], stdout=PIPE, stderr=PIPE)
+        proc = Popen(['/usr/local/bin/youtube-upload', f'--title="{title}"', f'--description="{description}"', f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
             yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
