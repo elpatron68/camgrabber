@@ -257,7 +257,7 @@ def save_weather_to_db(data):
 
 def ping_healthchecks():
     if CONFIG['general']['enable_healtchecks'].lower() == 'true':
-        id = CONFIG['general']['healtchecks_id']
+        id = CONFIG['general']['healthchecks_id']
         url = f'https://hc-ping.com/{id}'
         logging.info(f'Sending ping to {url}')
         try:
