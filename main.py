@@ -261,9 +261,10 @@ def ping_healthchecks():
         url = f'https://hc-ping.com/{id}'
         logging.info(f'Sending ping to {url}')
         try:
-            urllib.request.urlopen(url)
-        except:
+            requests.get(url)
+        except requests.exceptions.RequestException:
             logging.warn('Healtcheck ping failed.')
+            pass
 
 
 def cleanup(path):
