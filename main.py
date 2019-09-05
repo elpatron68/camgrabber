@@ -98,7 +98,7 @@ def get_images(day, path):
             if weathercount == 0:
                 logging.debug('Loading new weather information')
                 weatherdata = get_weather()
-                ping_healthchecks()
+                ping_healthchecks(str(counter).zfill(5))
             weathercount += 1
             try:
                 urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
@@ -255,13 +255,13 @@ def save_weather_to_db(data):
     database.update_db(CONFIG['general']['database'], data['tablename'], data)
     pass
 
-def ping_healthchecks():
+def ping_healthchecks(image):
     if CONFIG['general']['enable_healtchecks'].lower() == 'true':
         id = CONFIG['general']['healthchecks_id']
         url = f'https://hc-ping.com/{id}'
-        logging.info(f'Sending ping to {url}')
+        logging.info(f'Sending ping to {url}', data=f'image={image}')
         try:
-            requests.get(url)
+            requests.post(url)
         except requests.exceptions.RequestException:
             logging.warn('Healtcheck ping failed.')
             pass
