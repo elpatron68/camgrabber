@@ -319,6 +319,7 @@ def upload_youtube(filename):
     playlist = CONFIG['youtube']['playlist']
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
+    logging.debug(f'YT upload:\ntitle: {title}\ndesc: {description}\nplaylist: {playlist}\nembed: {embeddable}\nprivacy: {privacy}')
     try:
         lat = CONFIG['sun']['lat'].split()[0]
         lon = CONFIG['sun']['lon'].split()[0]
@@ -328,8 +329,9 @@ def upload_youtube(filename):
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     try:
-        # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdout=PIPE, stderr=PIPE)
-        # youtube-upload --title="YCN/PieseCam Zeitrafferaufnahme vom 02.09.2019" --description="Zeitraffer-Video der Webcam des Yacht Clubs Norden, erstellt mit  https://github.com/elpatron68/camgrabber" --playlist="YCN-Webcam" --embeddable=True --privacy=public --location="latitude=53.6,longitude=7.1" ./videos/ycn-20190902.mp4
+        # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdo$
+        # youtube-upload --title="YCN/PieseCam Zeitrafferaufnahme vom 02.09.2019" --description="Zeitraffer-Video der Webcam des Yacht Clubs Norden, erstellt mit  https://github.com/elpatron68/camgrabber" --playlist="YCN-Webcam" --embeddable=$
+        yt_url = ''
         proc = Popen(['/usr/local/bin/youtube-upload', f'--title={title}', f'--description={description}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
