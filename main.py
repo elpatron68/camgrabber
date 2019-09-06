@@ -336,13 +336,13 @@ def upload_youtube(filename):
         stdout, stderr = proc.communicate()
         try:
             yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
-            if yt_url:
-                logging.debug(f'YT URL: {yt_url}')
-                send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
-            else:
-                send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
         except:
             logging.debug(f'Parsinf regex in {stderr} failed.')
+        if yt_url:
+            logging.debug(f'YT URL: {yt_url}')
+            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
+        else:
+            send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
     except:
         logging.warn(f'Launching youtube-upload subprocess failed!')
         pass
