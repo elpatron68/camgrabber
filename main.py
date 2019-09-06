@@ -262,9 +262,9 @@ def ping_healthchecks(image):
     if CONFIG['general']['enable_healtchecks'].lower() == 'true':
         id = CONFIG['general']['healthchecks_id']
         url = f'https://hc-ping.com/{id}'
-        logging.info(f'Sending ping to {url}', data=f'image={image}')
+        logging.info(f'Sending ping to {url}')
         try:
-            requests.post(url)
+            requests.post(url, data=f'image={image}')
         except requests.exceptions.RequestException:
             logging.warn('Healtcheck ping failed.')
             pass
