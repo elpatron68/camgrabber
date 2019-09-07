@@ -21,7 +21,7 @@ def update_db(db_file, table_name, data):
     now = datetime.now()
     try:
         c = conn.cursor()
-        c.execute(f'''INSERT INTO {table_name} (ts, windspeed, winddirection, pressure, temperature) VALUES (?, ?, ?, ?);''', (now, wind, winddirection, pressure, temp))
+        c.execute(f'''INSERT INTO {table_name} (ts, windspeed, winddirection, pressure, temperature) VALUES (?, ?, ?, ?, ?);''', (now, wind, winddirection, pressure, temp))
         conn.commit()
         conn.close()
     except Error as e:
