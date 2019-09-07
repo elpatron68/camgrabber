@@ -253,6 +253,7 @@ def insert_weather_data(imagefile, data):
 def save_weather_to_db(data):
     logging.info(f'Saving weather information to database')
     database.update_db(CONFIG['general']['database'], data['tablename'], data)
+    pass
 
 
 def ping_healthchecks(image):
