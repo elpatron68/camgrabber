@@ -32,7 +32,7 @@ if os.path.isfile('camgrabber.ini'):
     CONFIG.read('camgrabber.ini')
 elif os.path.isfile('camgrabber.default.ini'):
     CONFIG.read('camgrabber.default.ini')
-    logging.warn('Falling back to default ini. Possibly, at least the openweather API key is missing! Other things may go wrong, too.')
+    logging.warning('Falling back to default ini. Possibly, at least the openweather API key is missing! Other things may go wrong, too.')
 else:
     sys.exit()
 
@@ -103,11 +103,11 @@ def get_images(day, path):
             try:
                 urllib.request.urlretrieve(CONFIG['recording']['url'], fullname)
             except urllib.error.URLError as e:
-                logging.warn(f'Failed loading image (URLError): {str(e)}')
+                logging.warning(f'Failed loading image (URLError): {str(e)}')
             except urllib.error.HTTPError as e:
-                logging.warn(f'Failed loading image (HTTPError): {str(e)}')
+                logging.warning(f'Failed loading image (HTTPError): {str(e)}')
             except:
-                logging.warn('Unknown error')
+                logging.warning('Unknown error')
             
             if os.path.isfile(fullname):
                 insert_weather_data(fullname, weatherdata)
@@ -187,7 +187,7 @@ def get_weather():
                 try:
                     current_temperature = str(round(float(current_temperature), 1))
                 except:
-                    logging.warn(f'Temperature conversion failed')
+                    logging.warning(f'Temperature conversion failed')
                 current_pressure = main['pressure'] 
                 wind = x['wind']
                 windspeed = wind['speed']
@@ -202,9 +202,8 @@ def get_weather():
                 weatherdata['pressure'] = current_pressure
                 weatherdata['temperature'] = current_temperature
                 save_weather_to_db(weatherdata)
-
         except:
-            logging.warn(f'Failed to retreive weather data. Response was\n{x}')
+            logging.warning(f'Failed to retreive weather data. Response was\n{x}')
             current_temperature = 'n/a'
             current_pressure = 'n/a'
             windspeed = 'n/a'
@@ -246,7 +245,7 @@ def insert_weather_data(imagefile, data):
         draw.text((txt_xpos, txt_ypos + ypos_step * 3),f'{data[1]} hPa', font=font, fill=(0,0,0,255))
         background.save(imagefile)
     except:
-        logging.warn('Inserting weather data into image failed.')
+        logging.warning('Inserting weather data into image failed.')
     pass
     
 
@@ -264,7 +263,7 @@ def ping_healthchecks(image):
         try:
             requests.post(url, data=f'image={image}')
         except requests.exceptions.RequestException:
-            logging.warn('Healtcheck ping failed.')
+            logging.warning('Healtcheck ping failed.')
             pass
 
 
@@ -275,7 +274,7 @@ def cleanup(path):
             try:
                 shutil.rmtree(path)
             except:
-                logging.warn('Cleanup failed')
+                logging.warning('Cleanup failed')
                 pass
     else:
         logging.debug('Deleting of image files disabled')
@@ -342,7 +341,7 @@ def upload_youtube(filename):
         else:
             send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: Retrieving URL failed.')
     except:
-        logging.warn(f'Launching youtube-upload subprocess failed!')
+        logging.warning(f'Launching youtube-upload subprocess failed!')
         pass
 
 
@@ -352,7 +351,7 @@ def send_telegram(message):
         try:
             call(['telegram-send', f'{message}'])
         except:
-            logging.warn('Sending Telegram message failed.')
+            logging.warning('Sending Telegram message failed.')
 
 
 if __name__ == '__main__':
