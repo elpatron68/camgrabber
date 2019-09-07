@@ -252,11 +252,7 @@ def insert_weather_data(imagefile, data):
 
 def save_weather_to_db(data):
     logging.info(f'Saving weather information to database')
-    try:
-        database.update_db(CONFIG['general']['database'], data['tablename'], data)
-    except:
-        logging.warn('Databas update failed')
-        pass
+    database.update_db(CONFIG['general']['database'], data['tablename'], data)
 
 
 def ping_healthchecks(image):
