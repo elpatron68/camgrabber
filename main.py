@@ -201,7 +201,7 @@ def get_weather():
                 weatherdata['winddirection'] = winddirection
                 weatherdata['pressure'] = current_pressure
                 weatherdata['temperature'] = current_temperature
-                # save_weather_to_db(weatherdata)
+                save_weather_to_db(weatherdata)
 
         except:
             logging.warn(f'Failed to retreive weather data. Response was\n{x}')
@@ -255,6 +255,7 @@ def save_weather_to_db(data):
     try:
         database.update_db(CONFIG['general']['database'], data['tablename'], data)
     except:
+        logging.warn('Databas update failed')
         pass
 
 
