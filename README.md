@@ -8,7 +8,7 @@ Demo video recorded from the webcam of https://yacht-club-norden.de/
 
 [![Demo video from the webcam of https://yacht-club-norden.de/](https://i.imgur.com/WD4DbK7.png)](https://www.youtube.com/watch?v=iIyvILQrj_Q)
 
-Click on the image to see the video on YouTube
+Click on the image to see the video on YouTube, click [here](https://www.youtube.com/playlist?list=PLUHqgnSxff9Ti0f6OT5E-oMycEe_j7GBX) to see the full playlist of Camgrabber rendered videos.
 
 ## Features
 
