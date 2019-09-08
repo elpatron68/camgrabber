@@ -1,5 +1,3 @@
-camgrabber README
-===
 # Camgrabber
 
 Camgrabber is a script written in Python that saves images from an url (eg. webcam still images) in a specific interval and renders a daily "time lapse" video from the images. Weather data (like temperature, wind, air pressure) will be included into each image (and of course the video).
