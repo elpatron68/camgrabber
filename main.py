@@ -334,7 +334,7 @@ def upload_youtube(filename):
             stderr = stderr.decode('utf-8')
             yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
         except:
-            logging.debug(f'Parsinf regex in {stderr} failed.')
+            logging.debug(f'Parsing regex in {stderr} failed.')
         if yt_url:
             logging.debug(f'YT URL: {yt_url}')
             send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
