@@ -4,7 +4,7 @@ __pycache__
 *.txt
 venv
 .vscode
-test.py
+test.*
 *.mp4
 de421.bsp
 deltat.data

@@ -325,13 +325,13 @@ def upload_youtube(filename):
         lon = '10'
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
+    yt_url = ''
     try:
-        # proc = Popen(['youtube-upload', f'--title="{title}""', f'--description="{description}"',f'--playlist="{playlist}"', f'--embeddable={embeddable}', f'--privacy={privacy}', f'--location="latitude={lat},longitude={lon}"',filename], stdo$
         # youtube-upload --title="YCN/PieseCam Zeitrafferaufnahme vom 02.09.2019" --description="Zeitraffer-Video der Webcam des Yacht Clubs Norden, erstellt mit  https://github.com/elpatron68/camgrabber" --playlist="YCN-Webcam" --embeddable=$
-        yt_url = ''
         proc = Popen(['/usr/local/bin/youtube-upload', f'--title={title}', f'--description={description}', f'--playlist={playlist}', f'--embeddable={embeddable}', f'--privacy={privacy}', filename], stdout=PIPE, stderr=PIPE)
         stdout, stderr = proc.communicate()
         try:
+            stderr = stderr.decode('utf-8')
             yt_url = re.findall(r'https:\/\/www\.youtube\.com\/watch\?v=.*\b', stderr)[0]
         except:
             logging.debug(f'Parsinf regex in {stderr} failed.')
