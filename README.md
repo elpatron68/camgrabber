@@ -16,7 +16,7 @@ Click on the image to see the video on YouTube, click [here](https://www.youtube
 - Paste weather information and icons into each image (metric or imperial units)
 - Render a daily time lapse video from the images
 - Automatically upload daily video to YouTube
-- Record 50 images / day at noon for a long term time lapse video
+- Additionally save 50 images / day at noon for a long term time lapse video
 - Send status information via Telegram messenger
 - Highly configurable with INI file
 
