@@ -94,11 +94,11 @@ For receiving status messages from Camgrabber with Telegram messenger, you have 
 
 ## Update
 
-### Manual Update
+### Manual update
 
 `git pull && sudo /usr/bin/supervisorctl restart camgrabber`
 
-### Automatic Update using Crontab
+### Automatic update using Crontab
 
 Edit your crontab configuration
 
