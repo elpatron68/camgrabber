@@ -317,12 +317,6 @@ def upload_youtube(filename):
     embeddable = CONFIG['youtube']['embeddable']
     privacy = CONFIG['youtube']['privacy']
     logging.debug(f'YT upload:\ntitle: {title}\ndesc: {description}\nplaylist: {playlist}\nembed: {embeddable}\nprivacy: {privacy}')
-    try:
-        lat = CONFIG['sun']['lat'].split()[0]
-        lon = CONFIG['sun']['lon'].split()[0]
-    except:
-        lat = '54'
-        lon = '10'
     logging.info(f'Uploading {filename} to YouTube.')
     logging.debug(f'Playlist: {playlist}, title: {title}, privacy: {privacy}')
     yt_url = ''
