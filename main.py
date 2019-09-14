@@ -330,6 +330,8 @@ def upload_youtube(filename):
         except:
             logging.debug(f'Parsing regex in {stderr} failed.')
         if yt_url:
+            # Wait for Youtube rendering
+            time.sleep(120)
             logging.debug(f'YT URL: {yt_url}')
             send_telegram(f'Camgrabber has uploaded a new daily video to YouTube: {yt_url}')
         else:
