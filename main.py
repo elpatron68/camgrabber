@@ -86,7 +86,7 @@ def get_images(day, path):
     weather_interval = int(CONFIG['weather']['interval'])
     if datetime.utcnow() > start and datetime.utcnow() < end:
         logging.info(f'Start recording a total number of {number_of_images} images until {end}')
-        send_telegram(f'Good morning. Camgrabber starts recording a total number of {number_of_images} images until {end} UTC.')
+        send_telegram(f'Good morning. Camgrabber starts recording a total number of estimated {number_of_images} images until {end} UTC.')
 
     while day == date.today():
         now = datetime.utcnow()
@@ -159,7 +159,7 @@ def create_timelapse(day, source_path, dest_path):
         .output(f'{fullname}')
         .run()
     )
-    send_telegram(f'Camgrabber has rendered a new daily video: {fullname}.')
+    # send_telegram(f'Camgrabber has rendered a new daily video: {fullname}.')
     return fullname
         
 
