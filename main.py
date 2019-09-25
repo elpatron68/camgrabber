@@ -47,6 +47,7 @@ elif CONFIG['general']['loglevel'].lower() == 'warning':
 # Constants
 START_BEFORE_SUNDAWN = int(CONFIG['recording']['start_before_dawn'])
 END_AFTER_SUNDOWN = int(CONFIG['recording']['end_after_sundown'])
+INSTANCE_ID = CONFIG['general']['instance_id']
 
 def get_images(day, path):
     logging.debug(f'Creating directories {path}')
@@ -344,6 +345,7 @@ def upload_youtube(filename):
 def send_telegram(message):
     if CONFIG['telegram']['enabled'].lower() == 'true':
         logging.info(f'Sending Telegram message')
+        message = f'{INSTANCE_ID}: {message}'
         try:
             call(['telegram-send', f'{message}'])
         except:
