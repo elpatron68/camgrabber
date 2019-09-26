@@ -344,7 +344,7 @@ def upload_youtube(filename):
 
 def send_telegram(message):
     if CONFIG['telegram']['enabled'].lower() == 'true':
-        logging.info(f'Sending Telegram message')
+        logging.info('Sending Telegram message')
         message = f'{INSTANCE_ID}: {message}'
         try:
             call(['telegram-send', f'{message}'])
