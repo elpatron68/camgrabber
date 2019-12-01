@@ -1,5 +1,6 @@
 __pycache__
 *.png
+*.jpg
 *.txt
 venv
 .vscode
