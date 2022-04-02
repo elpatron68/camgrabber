@@ -364,10 +364,10 @@ if __name__ == '__main__':
         sun_down_utc = sun.get_local_sunset_time()
         start = sun_dawn_utc - timedelta(minutes=START_BEFORE_SUNDAWN)
         end = sun_down_utc + timedelta(minutes=END_AFTER_SUNDOWN)
-        logging.debug('sun dawn:' + sun_dawn_utc)
-        logging.debug('sun down: ' + sun_down_utc)
-        logging.debug('start: ' + start)
-        logging.debug('end:' + end)
+        logging.debug('sun dawn:' + sun_dawn_utc.strftime('%H:%M'))
+        logging.debug('sun down: ' + sun_down_utc.strftime('%H:%M'))
+        logging.debug('start: ' + start.strftime('%H:%M'))
+        logging.debug('end:' + end.strftime('%H:%M'))
         if now > start and now < end:
             logging.info('The sun has risen, start recording')
             dark = False
