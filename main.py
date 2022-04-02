@@ -367,6 +367,10 @@ if __name__ == '__main__':
         sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
         start = sun_dawn_utc - timedelta(minutes=START_BEFORE_SUNDAWN)
         end = sun_down_utc + timedelta(minutes=END_AFTER_SUNDOWN)
+        logging.debug('sun dawn:' + sun_dawn_utc)
+        logging.debug('sun down: ' + sun_down_utc)
+        logging.debug('start: ' + start)
+        logging.debug('end:' + end)
         if now > start and now < end:
             logging.info('The sun has risen, start recording')
             dark = False
@@ -377,6 +381,7 @@ if __name__ == '__main__':
             if CONFIG['youtube']['enabled'].lower() == 'true':
                 upload_youtube(videofile)
         else:
+            logging.info('Recording stopped')
             if dark == False:
                 logging.info(f'It is too dark outside, recording paused until {start} UTC')
                 send_telegram(f'Recording paused until {start} UTC')
