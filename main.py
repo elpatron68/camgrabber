@@ -72,9 +72,10 @@ def get_images(day, path):
 
     weathercount = 0
     sun = get_sun()
-    sun_dawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+    # sun_dawn = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+    sun_dawn = sun.get_sunrise_time()
     logging.debug(f'Sun dawn: {sun_dawn}')
-    sun_down = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+    sun_down = sun.get_sunset_time()
     logging.debug(f'Sun down: {sun_down}')
     start = sun_dawn - timedelta(minutes=START_BEFORE_SUNDAWN)
     logging.debug(f'Start: {start}')
