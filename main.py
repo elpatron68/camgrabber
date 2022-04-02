@@ -22,7 +22,7 @@ from skyfield import almanac
 import database
 
 # Initiate logging
-logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
 logging.info('Starting Camgrabber')
 
 # Read configuration file
