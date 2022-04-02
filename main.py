@@ -17,8 +17,9 @@ from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw 
 import ffmpeg
-from skyfield import api
-from skyfield import almanac
+from suntime import Sun, SunTimeException
+# from skyfield import api
+# from skyfield import almanac
 import database
 
 # Initiate logging
@@ -286,14 +287,8 @@ def get_sun():
     lat = CONFIG['sun']['lat']
     lon = CONFIG['sun']['lon']
     logging.debug(f'Calculating sun dawn end down for LAT {lat}, LON {lon}')
-    location = api.Topos(lat, lon)
-    ts = api.load.timescale()
-    e = api.load('de421.bsp')
     today = date.today()
-    t0 = ts.utc(today.year, today.month, today.day, 0)
-    t1 = ts.utc(today.year, today.month, today.day, 23)
-    t, y = almanac.find_discrete(t0, t1, almanac.sunrise_sunset(e, location))
-    sun = t.utc_iso()
+    sun = Sun(lat, lon)
     return sun
 
 
@@ -363,8 +358,10 @@ if __name__ == '__main__':
         sun = get_sun()
         path = today.strftime('%Y%m%d')
         now = datetime.utcnow()
-        sun_dawn_utc = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
-        sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+        # sun_dawn_utc = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
+        # sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
+        sun_dawn_utc = sun.get_sunrise_time()
+        sun_down_utc = sun.get_local_sunset_time()
         start = sun_dawn_utc - timedelta(minutes=START_BEFORE_SUNDAWN)
         end = sun_down_utc + timedelta(minutes=END_AFTER_SUNDOWN)
         logging.debug('sun dawn:' + sun_dawn_utc)

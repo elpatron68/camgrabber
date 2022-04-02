@@ -18,3 +18,4 @@ oauth-secret.json
 *.flv
 ycn-*.jpg
 /.venv
+test_sun.py
