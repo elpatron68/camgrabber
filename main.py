@@ -9,9 +9,7 @@ import shutil
 import configparser
 from subprocess import call, Popen, PIPE, STDOUT
 import re
-from datetime import date
-from datetime import timedelta
-from datetime import datetime
+from datetime import date, timedelta, datetime, timezone
 from shutil import copyfile
 from PIL import Image
 from PIL import ImageFont
@@ -23,7 +21,7 @@ from suntime import Sun, SunTimeException
 import database
 
 # Initiate logging
-logging.basicConfig(format='%(asctime)s %(message)s', level=logging.DEBUG)
+logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
 logging.info('Starting Camgrabber')
 
 # Read configuration file
@@ -357,7 +355,7 @@ if __name__ == '__main__':
         today = date.today()
         sun = get_sun()
         path = today.strftime('%Y%m%d')
-        now = datetime.utcnow()
+        now = datetime.now(timezone.utc)
         # sun_dawn_utc = datetime.strptime(sun[0], '%Y-%m-%dT%H:%M:%SZ')
         # sun_down_utc = datetime.strptime(sun[1], '%Y-%m-%dT%H:%M:%SZ')
         sun_dawn_utc = sun.get_sunrise_time()
