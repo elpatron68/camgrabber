@@ -284,8 +284,8 @@ def cleanup(path):
 
 
 def get_sun():
-    lat = CONFIG['sun']['lat']
-    lon = CONFIG['sun']['lon']
+    lat = float(CONFIG['sun']['lat'])
+    lon = float(CONFIG['sun']['lon'])
     logging.debug(f'Calculating sun dawn end down for LAT {lat}, LON {lon}')
     today = date.today()
     sun = Sun(lat, lon)
