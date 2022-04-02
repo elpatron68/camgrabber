@@ -1,4 +1,5 @@
 # Database functions
+import logging
 import os
 import sys
 from datetime import date, datetime
@@ -56,8 +57,9 @@ def create_db_table(db_file, table_name):
         c = conn.cursor()
         c.execute(create_table_sql)
         conn.close()
+        logging.info('Database sucessfully created')
     except Error as e:
-        print(e)
+        logging.error(e)
 
 if __name__ == '__main__':
     create_db_table('camgrabber.sqlite3', 'ycn')

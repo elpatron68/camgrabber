@@ -17,3 +17,4 @@ oauth-secret.json
 *.sqlite3
 *.flv
 ycn-*.jpg
+/.venv
