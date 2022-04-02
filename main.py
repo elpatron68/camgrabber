@@ -86,7 +86,7 @@ def get_images(day, path):
     number_of_images = int(timediff_secs / load_interval)
     weather_interval = int(CONFIG['weather']['interval'])
     now = datetime.now(timezone.utc)
-    if now > start and datetime.utcnow() < end:
+    if now > start and now < end:
         logging.info(f'Start recording a total number of {number_of_images} images until {end}')
         send_telegram(f'Good morning. Camgrabber starts recording a total number of estimated {number_of_images} images until {end} UTC.')
 
