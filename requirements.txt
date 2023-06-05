@@ -1,5 +1,5 @@
 wheel==0.38.1
-requests==2.22.0
+requests==2.31.0
 ffmpeg_python==0.2.0
 Pillow==9.3.0
 ffmpeg==1.4
