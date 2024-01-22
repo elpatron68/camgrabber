@@ -1,6 +1,6 @@
 wheel==0.38.1
 requests==2.31.0
 ffmpeg_python==0.2.0
-Pillow==10.0.1
+Pillow==10.2.0
 ffmpeg==1.4
 suntime==1.2.5
